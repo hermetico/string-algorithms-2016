@@ -7,7 +7,8 @@ class SuffixTree(object):
         if filename:
             self.construct_tree(filename)
         
-    def construct_tree(self, filename):
+    def construct_tree(self, filename):#i made  a comment
+
         
         
         
