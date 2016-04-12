@@ -1,25 +1,35 @@
+import sys
 from TrieNode import TrieNode 
-from suffixtree import SuffixTree
-
-file_object = open("Files/mississippi.txt")
-
-print"Reading mississippi.txt:"
-content = file_object.read()
-
-print content
+from SuffixTree import SuffixTree
 
 
-print "Testing TrieNode.py"
-tn = TrieNode("Test", 23, 32)
+def main(argv):
+    filename = argv[0]
+    search_string = argv[1]
 
-print tn.indexes
-print tn.child
-print tn.sibling
+    print "Testing TrieNode.py"
+    tn = TrieNode("Test", 23, 32)
 
-tn.change_indexes([3, 2])
-tn.change_child("Nope")
-tn.change_sibling(None)
+    print tn.indexes
+    print tn.child
+    print tn.sibling
 
-print tn.indexes
-print tn.child
-print tn.sibling
+    tn.change_indexes([3, 2])
+    tn.change_child("Nope")
+    tn.change_sibling(None)
+
+    print tn.indexes
+    print tn.child
+    print tn.sibling
+
+
+    
+    print"Reading " + filename + ":"
+    file_object = open("Files/" + filename)
+    content = file_object.read()
+    st = SuffixTree(content + "$")
+    print st
+    ##print content
+
+if __name__ == "__main__":
+    main(sys.argv[1:])

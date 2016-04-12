@@ -8,7 +8,6 @@ class TrieNode:
         self.child = child
         self.sibling = sibling
         
-        
     def change_indexes(self, indexes):
         self.indexes = indexes
         
