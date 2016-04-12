@@ -14,7 +14,7 @@ class SuffixTree(object):
     def construct_tree(self, string):
         self.n=len(string) - 1
         self.root = TrieNode((0, self.n), None, None)
-        for i in range (self.n):
+        for i in range (1, self.n):
             self.add_suffix(i)
 
             
@@ -37,6 +37,7 @@ class SuffixTree(object):
         while self.string[node.indexes[0]] != self.string[c]: 
             if node.sibling == None:
                 node.sibling = TrieNode((c, self.n), None, None)
+                print "crating sib: " + "(" + str(c) + "," + str(self.n) + ")"
                 return
             node = node.sibling
         
@@ -48,10 +49,14 @@ class SuffixTree(object):
   
         while self.string[c] == self.string[node.indexes[0] + i]:
             print self.string[c]
-            print self.string[node.indexes[0]+i]          
+            print self.string[node.indexes[0]+i]    
+            print node.indexes[1]
+            print node.indexes[0]
             # We check if this is the last character of the node
             # if that is the case, we do a recursive call with the child node
             if i == node.indexes[1] - node.indexes[0]:
+                print "TEST"
+                i += 1
                 self.add_suffix(start_index + i, node.child)
                 return
             i += 1
@@ -60,9 +65,10 @@ class SuffixTree(object):
         ###################split################
         first_part = (node.indexes[0], node.indexes[0] + i-1)
         second_part = (node.indexes[0] + i, node.indexes[1])
-        #third_part = (node.indexes[1] + 1, n)
-        third_part = (c - 1, self.n)
+        third_part = (start_index + i, self.n)
         
+        
+        print "C: " + str(c) + " I: " + str(i)
         print str(first_part) + " " + str(second_part) + " " + str(third_part)
     
         third_node = TrieNode(third_part, None, None)
@@ -81,10 +87,11 @@ class SuffixTree(object):
         if self.root:
             node = self.root
             n = node
-            while n is not None:
-                print "Children of " + str(n.indexes) + ":"
+            while n:
+                node = n
+                print "Siblings of " + str(n.indexes) + ":"
                 output_line = []
-                while n.sibling is not None:
+                while n.sibling:
                     # gets the sibling
                     sib = n.sibling
                     # append the name to an array 
@@ -94,6 +101,7 @@ class SuffixTree(object):
                 print '-->'.join(output_line)
                 
                 if node.child:
+                    print "Moving to child: " + str(node.child.indexes) + " from index " + str(node.indexes)
                     n = node.child
                 elif node.sibling:
                     n = node.sibling
