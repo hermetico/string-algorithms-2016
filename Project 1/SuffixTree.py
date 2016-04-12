@@ -9,13 +9,12 @@ class SuffixTree(object):
         self.root = None
         if string:
             self.string = string
-            self.n = len(string)
             self.construct_tree(string)
         
     def construct_tree(self, string):
-        self.n=len(string)
+        self.n=len(string) - 1
         self.root = TrieNode((0, self.n), None, None)
-        for i in range (1, self.n):
+        for i in range (self.n):
             self.add_suffix(i)
 
             
@@ -36,8 +35,6 @@ class SuffixTree(object):
         #
        
         while self.string[node.indexes[0]] != self.string[c]: 
-            print self.string[c]
-            print self.string[node.indexes[0]+i]
             if node.sibling == None:
                 node.sibling = TrieNode((c, self.n), None, None)
                 return
@@ -79,19 +76,31 @@ class SuffixTree(object):
 
     def __str__(self):
         """Prints the suffix tree"""
-
+        print self.string
         # checks if the tree is not empty
         if self.root:
             node = self.root
-            output_line = [str(node.indexes)]
-            while node.sibling:
-                # gets the sibling
-                sib = node.sibling
-                # append the name to an array 
-                output_line.append(str(sib.indexes))
-                # gets the next sibling
-                node = sib
-            print '-->'.join(output_line)
+            n = node
+            while n is not None:
+                print "Children of " + str(n.indexes) + ":"
+                output_line = []
+                while n.sibling is not None:
+                    # gets the sibling
+                    sib = n.sibling
+                    # append the name to an array 
+                    output_line.append(str(sib.indexes))
+                    # gets the next sibling
+                    n = sib
+                print '-->'.join(output_line)
+                
+                if node.child:
+                    n = node.child
+                elif node.sibling:
+                    n = node.sibling
+                else:
+                    break
+            
+            
                 
         else:
             print "Empty tree"

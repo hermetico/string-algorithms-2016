@@ -27,7 +27,9 @@ def main(argv):
     print"Reading " + filename + ":"
     file_object = open("Files/" + filename)
     content = file_object.read()
-    st = SuffixTree(content + "$")
+    st = SuffixTree(content)
+
+    
     print st
     ##print content
 
