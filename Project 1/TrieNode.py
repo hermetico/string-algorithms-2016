@@ -1,19 +1,14 @@
 class TrieNode:
-    indexes = ""
-    child = None
-    sibling = None
-    
-    def __init__(self, indexes, child, sibling):
+    """A suffix tree node representation"""
+    def __init__(self, indexes = "", child = None, sibling = None):
         self.indexes = indexes
         self.child = child
         self.sibling = sibling
-        
-    def change_indexes(self, indexes):
-        self.indexes = indexes
-        
-    def change_child(self, child):
-        self.child = child
-        
-    def change_sibling(self, sibling):
-        self.sibling = sibling
-        
+
+    def first_index(self):
+        return self.indexes[0]
+
+    def last_index(self):
+        return self.indexes[1]
+
+

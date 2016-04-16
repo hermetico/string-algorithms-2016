@@ -33,8 +33,8 @@ def main(argv):
 
     print "SuffixTree construction complete"
     
-    # install digraph library to print and show an image of the tree
-    #printSuffixTree(st)
+    # install graphviz library to print and show an image of the tree
+    printSuffixTree(st)
     
     
 

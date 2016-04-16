@@ -2,67 +2,77 @@ from TrieNode import TrieNode
 
 class SuffixTree(object):
     """A fancy Suffix Tree with an amazing performance"""
-    string = ""
-    n = 0
 
-    def __init__(self, string=None):
+    def __init__(self, string=None, end_key='$'):
         self.root = TrieNode((-1, -1), None, None)
+        self.end_key = end_key
+        self.string = ''
+        self.end = 0
+
         if string:
-            self.string = string
             self.construct_tree(string)
+
+
         
     def construct_tree(self, string):
-        self.n=len(string) - 1
+
+        self.string = string + self.end_key
+        self.end = len(self.string) - 1
+
         # starts with an empty root, which first child will be the whole string
-        self.root.child = TrieNode((0, self.n), None, None)
-        for i in range (1, self.n):
+        # (week:1 slide:81)
+        self.root.child = TrieNode((0, self.end), None, None)
+        for i in range (1, self.end + 1):
             self.add_suffix(i, self.root.child)
 
-            
     def add_suffix(self, start_index, node):
         
-        #current char that we are trying to match
-        c = start_index
+        # current char that we are trying to match
+        suffix_index = start_index
 
         # We loop through the node and its siblings to get the first 
         # node which matches the first character
         # Two things could happen:
-        #   1 - There are not nodes with match the starting character -> new sibling is needed
-        #   2 - There is a matching start character -> we end the wile
-        #
-       
-        while self.string[node.indexes[0]] != self.string[c]: 
-            if node.sibling == None:
-                node.sibling = TrieNode((c, self.n), None, None)
-                #print "crating sib: " + "(" + str(c) + "," + str(self.n) + ")"
+        #   1 - There are not nodes which match the starting character -> new sibling is needed
+        #       and return from the function
+        #   2 - There is a matching start character -> we end the while
+        while self.string[node.first_index()] != self.string[suffix_index]:
+            if node.sibling is None:
+                node.sibling = TrieNode((suffix_index, self.end), None, None)
                 return
+
+            # move to the sibling to check if the first character matches
             node = node.sibling
         
-        # We loop comparing the character of the input 
-        # with the character of the current node
-        # we start with 1 more because we have already checked the first character
-        # in the previous while
-        i = 0
-  
-        while self.string[c] == self.string[node.indexes[0] + i]:
-            #print self.string[c]
-            #print self.string[node.indexes[0]+i]
-            #print node.indexes[1]
-            #print node.indexes[0]
+        # We loop comparing the characters of the input
+        # with the characters of the current node
+        string_index = node.first_index()
+        while self.string[suffix_index] == self.string[string_index]:
+
             # We check if this is the last character of the node
             # if that is the case, we do a recursive call with the child node
-            if i == node.indexes[1] - node.indexes[0]:
-                #print "TEST"
-                i += 1
-                self.add_suffix(start_index + i, node.child)
+            if string_index == node.last_index():
+                # we need to add 1, otherwise the index would be out of bounds of the node
+                self.add_suffix(suffix_index + 1, node.child)
                 return
-            i += 1
-            c += 1
-        
+            # increase string_index and suffix_index to check the next character
+            string_index += 1
+            suffix_index += 1
+
+        # Expands the current node
+        node = self.expand_node(node, string_index)
+
+        # Now, we create the third node, which will be the sibling of the child of the current node
+        new_sibling = TrieNode((suffix_index, self.end), None, None)
+        node.child.sibling = new_sibling
+
+        """
+        The old way to check and compare
+
         ###################split################
-        first_part = (node.indexes[0], node.indexes[0] + i-1)
-        second_part = (node.indexes[0] + i, node.indexes[1])
-        third_part = (start_index + i, self.n)
+        first_part = (node.first_index(), node.first_index() + i-1)
+        second_part = (node.first_index() + i, node.last_index())
+        third_part = (start_index + i, self.end)
         
         
         #print "C: " + str(c) + " I: " + str(i)
@@ -73,8 +83,33 @@ class SuffixTree(object):
         node.indexes = first_part
         node.child = second_node
         ## here we create the new child, we modify the current node and the child, and we call suffix with the child
-        
-        
+        """
+
+    def expand_node(self, node, split_index):
+        """Expands the input node
+        The expansion method works this way:
+            1 - We have the main node, which contains two indexes (x, y), and we also recieve the split_point, which is at the
+                point in which the main node is split
+            2 - The main node is split in two:
+                1: node -> (x, split_index - 1)
+                2: new_node -> (split_index, y)
+            3 - The new node will now be the child of the main node
+            4 - If the main node previously had a child, this now will be the child of the new node
+
+            M->CH  :  M->N->CH
+            Where M is main_node, CH is child_node and N is new_node
+        """
+
+        main_node_indexes = (node.first_index(), split_index - 1)
+        new_node_indexes = (split_index, node.last_index())
+
+
+        new_node = TrieNode(new_node_indexes, node.child)
+        node.indexes = main_node_indexes
+        node.child = new_node
+
+        return node
+
         
 
 
