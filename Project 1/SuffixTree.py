@@ -4,29 +4,26 @@ class SuffixTree(object):
     """A fancy Suffix Tree with an amazing performance"""
     string = ""
     n = 0
-    
+
     def __init__(self, string=None):
-        self.root = None
+        self.root = TrieNode((-1, -1), None, None)
         if string:
             self.string = string
             self.construct_tree(string)
         
     def construct_tree(self, string):
         self.n=len(string) - 1
-        self.root = TrieNode((0, self.n), None, None)
+        # starts with an empty root, which first child will be the whole string
+        self.root.child = TrieNode((0, self.n), None, None)
         for i in range (1, self.n):
-            self.add_suffix(i)
+            self.add_suffix(i, self.root.child)
 
             
-    def add_suffix(self, start_index, node = None):
+    def add_suffix(self, start_index, node):
         
         #current char that we are trying to match
         c = start_index
-        
-        # checks if node is none, this means we are looking through the root
-        if node is None:
-            node = self.root
-        
+
         # We loop through the node and its siblings to get the first 
         # node which matches the first character
         # Two things could happen:
@@ -37,7 +34,7 @@ class SuffixTree(object):
         while self.string[node.indexes[0]] != self.string[c]: 
             if node.sibling == None:
                 node.sibling = TrieNode((c, self.n), None, None)
-                print "crating sib: " + "(" + str(c) + "," + str(self.n) + ")"
+                #print "crating sib: " + "(" + str(c) + "," + str(self.n) + ")"
                 return
             node = node.sibling
         
@@ -48,14 +45,14 @@ class SuffixTree(object):
         i = 0
   
         while self.string[c] == self.string[node.indexes[0] + i]:
-            print self.string[c]
-            print self.string[node.indexes[0]+i]    
-            print node.indexes[1]
-            print node.indexes[0]
+            #print self.string[c]
+            #print self.string[node.indexes[0]+i]
+            #print node.indexes[1]
+            #print node.indexes[0]
             # We check if this is the last character of the node
             # if that is the case, we do a recursive call with the child node
             if i == node.indexes[1] - node.indexes[0]:
-                print "TEST"
+                #print "TEST"
                 i += 1
                 self.add_suffix(start_index + i, node.child)
                 return
@@ -68,8 +65,8 @@ class SuffixTree(object):
         third_part = (start_index + i, self.n)
         
         
-        print "C: " + str(c) + " I: " + str(i)
-        print str(first_part) + " " + str(second_part) + " " + str(third_part)
+        #print "C: " + str(c) + " I: " + str(i)
+        #print str(first_part) + " " + str(second_part) + " " + str(third_part)
     
         third_node = TrieNode(third_part, None, None)
         second_node = TrieNode(second_part, node.child, third_node)
@@ -80,40 +77,6 @@ class SuffixTree(object):
         
         
 
-    def __str__(self):
-        """Prints the suffix tree"""
-        print self.string
-        # checks if the tree is not empty
-        if self.root:
-            node = self.root
-            n = node
-            while n:
-                node = n
-                print "Siblings of " + str(n.indexes) + ":"
-                output_line = []
-                while n.sibling:
-                    # gets the sibling
-                    sib = n.sibling
-                    # append the name to an array 
-                    output_line.append(str(sib.indexes))
-                    # gets the next sibling
-                    n = sib
-                print '-->'.join(output_line)
-                
-                if node.child:
-                    print "Moving to child: " + str(node.child.indexes) + " from index " + str(node.indexes)
-                    n = node.child
-                elif node.sibling:
-                    n = node.sibling
-                else:
-                    break
-            
-            
-                
-        else:
-            print "Empty tree"
-        
-        return ''    
 
 if __name__ == "__main__":
     # TODO
