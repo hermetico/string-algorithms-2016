@@ -6,10 +6,13 @@ def printSuffixTree(tree):
     root = tree.root
     string = tree.string
     dot = Digraph('SufixTree')
+    
     visited = dict()
     queue = [root]
     parent_of = dict()
     node_name = 0
+   
+    # main process: basically this is a bfs
     while queue:
         node = queue.pop(0)
         if node not in visited:
@@ -29,6 +32,7 @@ def printSuffixTree(tree):
 
             node_name += 1
 
+    # post process: add labels and edges to te graph
     for node, parent in parent_of.items():
         label = ''.join([string[x] for x in range(node.indexes[0], node.indexes[1] + 1)])
         if node not in visited:
@@ -37,6 +41,8 @@ def printSuffixTree(tree):
             print "parent not visited", parent
         dot.edge(visited[parent], visited[node], label)
 
+    # prints the structure on console
     print dot.source
+    # shows the graph in a picture (i do not think this works within the c9 ide, use pycharm or something)
     dot.view()
 

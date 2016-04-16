@@ -31,9 +31,12 @@ def main(argv):
         content = file_object.read()
         st = SuffixTree(content)
 
+    print "SuffixTree construction complete"
+    
+    # install digraph library to print and show an image of the tree
     #printSuffixTree(st)
-    #print st
-    ##print content
+    
+    
 
 if __name__ == "__main__":
     main(sys.argv[1:])
