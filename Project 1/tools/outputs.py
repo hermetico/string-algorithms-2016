@@ -1,4 +1,4 @@
-def print_suffix_tree(tree, format="pdf"):
+def print_suffix_tree(tree, format="png"):
     from graphviz import Digraph
     root = tree.root
     string = tree.string
@@ -14,7 +14,7 @@ def print_suffix_tree(tree, format="pdf"):
         node = queue.pop(0)
         if node not in visited:
             visited[node] = str(node_name)
-            dot.node(str(node_name))
+            dot.node(str(node_name), label='')
             if node.sibling is not None:
                 parent = parent_of[node]
                 sib = node.sibling
@@ -40,6 +40,6 @@ def print_suffix_tree(tree, format="pdf"):
     dot.render('graphs/suffix-tree', view=True)
 
     # returns the structure on console in case you wish to print it
-    return dot.source
+    return ''#dot.source
 
 

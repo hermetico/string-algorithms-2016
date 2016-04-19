@@ -8,6 +8,7 @@ class SuffixTree(object):
         self.end_key = end_key
         self.string = ''
         self.end = 0
+        self.output = []
 
         if string:
             self.construct_tree(string)
@@ -101,10 +102,11 @@ class SuffixTree(object):
 
         return node
 
-    def search(self, key,node=None,key_index=0):
+    def search(self, key, node=None,key_index=0):
         #slow crawl
         if node is None:
             node = self.root
+            self.output = []
 
         node,found = self.__get_first_ch_node__(node,key[key_index])
 
@@ -116,7 +118,16 @@ class SuffixTree(object):
         while self.string[suffix_index] == key[key_index]:
             key_index += 1
             if key_index==len(key):
-                print suffix_index - len(key) + 2
+                #print suffix_index - len(key) + 2
+                if node.child  is not None:
+                    if suffix_index != node.last_index():
+                        self.__internal_search__(node.child, len(key) + (node.last_index() - suffix_index))
+                    else:
+                        self.__internal_search__(node.child, len(key))
+                else:
+                    self.output.append(suffix_index - len(key) + 1)
+
+                print ' '.join([str(x + 1) for x in sorted(self.output) ])
                 return
 
 
@@ -124,7 +135,6 @@ class SuffixTree(object):
             # if that is the case, we do a recursive call with the child node
             if suffix_index == node.last_index():
                 # we need to add 1, otherwise the index would be out of bounds of the node
-                ####CHECK THIS PART WHEN IT FAILS IN A MOMENT
                 return self.search(key, node, key_index)
 
             # increase string_index and suffix_index to check the next character
@@ -133,6 +143,16 @@ class SuffixTree(object):
 
         return
 
+
+    def __internal_search__(self, node, amount):
+
+        if node.child is not None:
+            self.__internal_search__(node.child, amount + 1 + node.last_index() - node.first_index())
+        else:
+            self.output.append(self.end - (amount + node.last_index() - node.first_index() ))
+
+        if node.sibling is not None:
+            self.__internal_search__(node.sibling, amount)
 
         
 
