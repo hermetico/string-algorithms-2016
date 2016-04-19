@@ -1,7 +1,7 @@
 import sys
 from TrieNode import TrieNode 
 from SuffixTree import SuffixTree
-from tools.outputs import printSuffixTree
+from tools.outputs import print_suffix_tree
 
 
 def main(argv):
@@ -34,7 +34,7 @@ def main(argv):
     print "SuffixTree construction complete"
     
     # install graphviz library to print and show an image of the tree
-    print printSuffixTree(st)
+    print print_suffix_tree(st)
     
     
 
