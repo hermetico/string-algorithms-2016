@@ -27,13 +27,16 @@ class SuffixTree(object):
 
 
     def __get_first_ch_node__(self, parent, ch):
+        """Returns the child of the given node which matches the character provided, if non of them matches
+        we return the last sibling.
+        The second value returned is a boolan whether the character has been found or not"""
+
         node = parent.child
         # We loop through the node and its siblings to get the first
         # node which matches the first character
         # Two things could happen:
-        #   1 - There are not nodes which match the starting character -> new sibling is needed
-        #       and return from the function
-        #   2 - There is a matching start character -> we end the while
+        #   1 - There are not nodes which match the starting character -> we return the last sibling and False
+        #   2 - There is a matching start character -> we return the node and True
         while self.string[node.first_index()] != ch:
             if node.sibling is None: return node, False
             # move to the sibling to check if the first character matches
@@ -42,8 +45,8 @@ class SuffixTree(object):
         return node, True
 
     def add_suffix(self, suffix_index, node):
-        
-
+        """Add a suffix into the suffix tree"""
+        # We search for the node which matches the first character
         node, found = self.__get_first_ch_node__(node, self.string[suffix_index])
         if not found:
             node.sibling = TrieNode((suffix_index, self.end), None, None)
