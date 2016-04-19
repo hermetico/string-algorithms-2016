@@ -14,7 +14,7 @@ def print_suffix_tree(tree, format="png"):
         node = queue.pop(0)
         if node not in visited:
             visited[node] = str(node_name)
-            dot.node(str(node_name))
+            dot.node(str(node_name), label=str(node.leaf_number))
             if node.sibling is not None:
                 parent = parent_of[node]
                 sib = node.sibling
@@ -31,7 +31,7 @@ def print_suffix_tree(tree, format="png"):
 
     # post process: add labels and edges to te graph
     for node, parent in parent_of.items():
-        label = str((node.first_index() + 1, node.last_index()+1)) + ''
+        label = str((node.first_index() + 1, node.last_index()+1))
         label += ''.join([string[x] for x in range(node.indexes[0], node.indexes[1] + 1)])
         dot.edge(visited[parent], visited[node], label.replace("\n", "\\n"))
 
