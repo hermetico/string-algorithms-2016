@@ -32,6 +32,7 @@ class SuffixTree(object):
         The second value returned is a boolan whether the character has been found or not"""
 
         node = parent.child
+        if node is None: return None, False
         # We loop through the node and its siblings to get the first
         # node which matches the first character
         # Two things could happen:
@@ -101,12 +102,12 @@ class SuffixTree(object):
 
         return node
 
-    def search(self, key,node=None,key_index=0):
+    def search(self, key, node=None, key_index=0, match_sub_index=0):
         #slow crawl
         if node is None:
             node = self.root
 
-        node,found = self.__get_first_ch_node__(node,key[key_index])
+        node,found = self.__get_first_ch_node__(node, key[key_index])
 
         if not found:
             return ""#False #whatever output means that the search failed
@@ -115,9 +116,9 @@ class SuffixTree(object):
         suffix_index = node.first_index()
         while self.string[suffix_index] == key[key_index]:
             key_index += 1
-            if key_index==len(key):
+            if key_index == len(key):
                 print suffix_index - len(key) + 2
-                return
+                return self.search(key, node, match_sub_index, match_sub_index)
 
 
             # We check if this is the last character of the node
@@ -125,7 +126,8 @@ class SuffixTree(object):
             if suffix_index == node.last_index():
                 # we need to add 1, otherwise the index would be out of bounds of the node
                 ####CHECK THIS PART WHEN IT FAILS IN A MOMENT
-                return self.search(key, node, key_index)
+                return self.search(key, node, key_index, key_index)
+
 
             # increase string_index and suffix_index to check the next character
 

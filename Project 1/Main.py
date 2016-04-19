@@ -33,9 +33,9 @@ def main(argv):
 
     print "SuffixTree construction complete"
     print "looking for ana in ", st.string
-    st.search("ana")
+    st.search("n")
     # install graphviz library to print and show an image of the tree
-    #print print_suffix_tree(st)
+    print print_suffix_tree(st)
     
     
 

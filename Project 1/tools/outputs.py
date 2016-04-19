@@ -1,4 +1,4 @@
-def print_suffix_tree(tree, format="pdf"):
+def print_suffix_tree(tree, format="png"):
     from graphviz import Digraph
     root = tree.root
     string = tree.string
