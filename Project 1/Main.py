@@ -34,7 +34,7 @@ def main(argv):
     print "SuffixTree construction complete"
     
     # install graphviz library to print and show an image of the tree
-    printSuffixTree(st)
+    print printSuffixTree(st)
     
     
 

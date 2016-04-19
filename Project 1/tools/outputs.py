@@ -34,11 +34,11 @@ def printSuffixTree(tree, format="png"):
 
     # post process: add labels and edges to te graph
     for node, parent in parent_of.items():
-        label = str((node.first_index() + 1, node.last_index()+1)) + '\n'
+        label = str((node.first_index() + 1, node.last_index()+1)) + ''
         label += ''.join([string[x] for x in range(node.indexes[0], node.indexes[1] + 1)])
-        dot.edge(visited[parent], visited[node], label)
+        dot.edge(visited[parent], visited[node], label.replace("\n", "\\n"))
 
-    dot.body.append(r'label = "\n\n' + tree.string + '"')
+    dot.body.append('label = "\\n\\n' + tree.string.replace("\n", "\\n") + '\\n"')
     # shows the graph in a picture (i do not think this works within the c9 ide, use pycharm or something)
     dot.render('graphs/suffix-tree', view=True)
 
