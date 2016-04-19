@@ -32,9 +32,9 @@ def main(argv):
         st = SuffixTree(content)
 
     print "SuffixTree construction complete"
-    
+    st.search("ana")
     # install graphviz library to print and show an image of the tree
-    print print_suffix_tree(st)
+    #print print_suffix_tree(st)
     
     
 

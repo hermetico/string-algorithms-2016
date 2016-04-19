@@ -72,6 +72,7 @@ class SuffixTree(object):
         node.child.sibling = new_sibling
 
 
+
     def expand_node(self, node, split_index):
         """Expands the input node
         The expansion method works this way:
@@ -96,6 +97,41 @@ class SuffixTree(object):
         node.child = new_node
 
         return node
+
+    def search(self, key,node=None,key_index=0, match_index=None):
+        #slow crawl
+        if node is None:
+            node = self.root
+
+        node,found = self.__get_first_ch_node__(node,key[key_index])
+
+        if not found:
+            return ""#False #whatever output means that the search failed
+
+        if match_index is None:
+            match_index = node.first_index()
+
+        suffix_index = node.first_index()
+        while self.string[suffix_index] == key[key_index]:
+            key_index += 1
+            if (key_index==len(key)):
+                print match_index
+                return
+
+
+            # We check if this is the last character of the node
+            # if that is the case, we do a recursive call with the child node
+            if suffix_index == node.last_index():
+                # we need to add 1, otherwise the index would be out of bounds of the node
+                ####CHECK THIS PART WHEN IT FAILS IN A MOMENT
+                return self.search(key, node, key_index, match_index)
+
+            # increase string_index and suffix_index to check the next character
+
+            suffix_index += 1
+
+        return
+
 
         
 
