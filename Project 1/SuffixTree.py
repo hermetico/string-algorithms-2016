@@ -101,7 +101,7 @@ class SuffixTree(object):
 
         return node
 
-    def search(self, key,node=None,key_index=0, match_index=None):
+    def search(self, key,node=None,key_index=0):
         #slow crawl
         if node is None:
             node = self.root
@@ -111,14 +111,12 @@ class SuffixTree(object):
         if not found:
             return ""#False #whatever output means that the search failed
 
-        if match_index is None:
-            match_index = node.first_index()
 
         suffix_index = node.first_index()
         while self.string[suffix_index] == key[key_index]:
             key_index += 1
-            if (key_index==len(key)):
-                print match_index
+            if key_index==len(key):
+                print suffix_index - len(key) + 2
                 return
 
 
@@ -127,7 +125,7 @@ class SuffixTree(object):
             if suffix_index == node.last_index():
                 # we need to add 1, otherwise the index would be out of bounds of the node
                 ####CHECK THIS PART WHEN IT FAILS IN A MOMENT
-                return self.search(key, node, key_index, match_index)
+                return self.search(key, node, key_index)
 
             # increase string_index and suffix_index to check the next character
 
