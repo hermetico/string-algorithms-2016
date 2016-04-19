@@ -41,33 +41,14 @@ class SuffixTree(object):
 
         return node, True
 
-    def add_suffix(self, start_index, node):
+    def add_suffix(self, suffix_index, node):
         
-        # current char that we are trying to match
-        suffix_index = start_index
-        """
-        # We loop through the node and its siblings to get the first 
-        # node which matches the first character
-        # Two things could happen:
-        #   1 - There are not nodes which match the starting character -> new sibling is needed
-        #       and return from the function
-        #   2 - There is a matching start character -> we end the while
-        while self.string[node.first_index()] != self.string[suffix_index]:
-            if node.sibling is None:
-                node.sibling = TrieNode((suffix_index, self.end), None, None)
-                return
 
-            # move to the sibling to check if the first character matches
-            node = node.sibling
-        """
-        ########
-        node, found = self.__get_first_ch_node__(node, self.string[start_index])
+        node, found = self.__get_first_ch_node__(node, self.string[suffix_index])
         if not found:
             node.sibling = TrieNode((suffix_index, self.end), None, None)
             return
 
-
-        
         # We loop comparing the characters of the input
         # with the characters of the current node
         string_index = node.first_index()
@@ -90,24 +71,6 @@ class SuffixTree(object):
         new_sibling = TrieNode((suffix_index, self.end), None, None)
         node.child.sibling = new_sibling
 
-        """
-        The old way to check and compare
-
-        ###################split################
-        first_part = (node.first_index(), node.first_index() + i-1)
-        second_part = (node.first_index() + i, node.last_index())
-        third_part = (start_index + i, self.end)
-        
-        
-        #print "C: " + str(c) + " I: " + str(i)
-        #print str(first_part) + " " + str(second_part) + " " + str(third_part)
-    
-        third_node = TrieNode(third_part, None, None)
-        second_node = TrieNode(second_part, node.child, third_node)
-        node.indexes = first_part
-        node.child = second_node
-        ## here we create the new child, we modify the current node and the child, and we call suffix with the child
-        """
 
     def expand_node(self, node, split_index):
         """Expands the input node
