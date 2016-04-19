@@ -23,13 +23,29 @@ class SuffixTree(object):
         # (week:1 slide:81)
         self.root.child = TrieNode((0, self.end), None, None)
         for i in range (1, self.end + 1):
-            self.add_suffix(i, self.root.child)
+            self.add_suffix(i, self.root)
+
+
+    def __get_first_ch_node__(self, parent, ch):
+        node = parent.child
+        # We loop through the node and its siblings to get the first
+        # node which matches the first character
+        # Two things could happen:
+        #   1 - There are not nodes which match the starting character -> new sibling is needed
+        #       and return from the function
+        #   2 - There is a matching start character -> we end the while
+        while self.string[node.first_index()] != ch:
+            if node.sibling is None: return node, False
+            # move to the sibling to check if the first character matches
+            node = node.sibling
+
+        return node, True
 
     def add_suffix(self, start_index, node):
         
         # current char that we are trying to match
         suffix_index = start_index
-
+        """
         # We loop through the node and its siblings to get the first 
         # node which matches the first character
         # Two things could happen:
@@ -43,6 +59,14 @@ class SuffixTree(object):
 
             # move to the sibling to check if the first character matches
             node = node.sibling
+        """
+        ########
+        node, found = self.__get_first_ch_node__(node, self.string[start_index])
+        if not found:
+            node.sibling = TrieNode((suffix_index, self.end), None, None)
+            return
+
+
         
         # We loop comparing the characters of the input
         # with the characters of the current node
@@ -53,7 +77,7 @@ class SuffixTree(object):
             # if that is the case, we do a recursive call with the child node
             if string_index == node.last_index():
                 # we need to add 1, otherwise the index would be out of bounds of the node
-                self.add_suffix(suffix_index + 1, node.child)
+                self.add_suffix(suffix_index + 1, node)
                 return
             # increase string_index and suffix_index to check the next character
             string_index += 1
