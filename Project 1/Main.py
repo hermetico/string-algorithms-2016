@@ -1,6 +1,5 @@
 import sys
-from TrieNode import TrieNode 
-from SuffixTree import SuffixTree
+from SuffixTree.SuffixTree import SuffixTree
 from tools.outputs import print_suffix_tree
 
 
