@@ -28,9 +28,9 @@ class SuffixTree(object):
 
 
     def __get_first_ch_node__(self, parent, ch):
-        """Returns the child of the given node which matches the character provided, if non of them matches
+        """Returns the child of the given node which matches the character provided, if none of them matches
         we return the last sibling.
-        The second value returned is a boolan whether the character has been found or not"""
+        The second value returned is a boolean whether the character has been found or not"""
 
         node = parent.child
         # We loop through the node and its siblings to get the first
@@ -102,59 +102,6 @@ class SuffixTree(object):
 
         return node
 
-    def search(self, key, node=None,key_index=0):
-        #slow crawl
-        if node is None:
-            node = self.root
-            self.output = []
-
-        node,found = self.__get_first_ch_node__(node,key[key_index])
-
-        if not found:
-            return ""#False #whatever output means that the search failed
-
-
-        suffix_index = node.first_index()
-        while self.string[suffix_index] == key[key_index]:
-            key_index += 1
-            if key_index==len(key):
-                #print suffix_index - len(key) + 2
-                if node.child  is not None:
-                    if suffix_index != node.last_index():
-                        self.__internal_search__(node.child, len(key) + (node.last_index() - suffix_index))
-                    else:
-                        self.__internal_search__(node.child, len(key))
-                else:
-                    self.output.append(suffix_index - len(key) + 1)
-
-                print ' '.join([str(x + 1) for x in sorted(self.output) ])
-                return
-
-
-            # We check if this is the last character of the node
-            # if that is the case, we do a recursive call with the child node
-            if suffix_index == node.last_index():
-                # we need to add 1, otherwise the index would be out of bounds of the node
-                return self.search(key, node, key_index)
-
-            # increase string_index and suffix_index to check the next character
-
-            suffix_index += 1
-
-        return
-
-
-    def __internal_search__(self, node, amount):
-
-        if node.child is not None:
-            self.__internal_search__(node.child, amount + 1 + node.last_index() - node.first_index())
-        else:
-            self.output.append(self.end - (amount + node.last_index() - node.first_index() ))
-
-        if node.sibling is not None:
-            self.__internal_search__(node.sibling, amount)
-
-        
 
 
 if __name__ == "__main__":
