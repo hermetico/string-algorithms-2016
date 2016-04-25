@@ -17,7 +17,7 @@ def main(argv):
     print "SuffixTree construction complete"
     print "looking for %s"%( search_string)
     # install graphviz library to print and show an image of the tree
-    print print_suffix_tree(st, 'pdf')
+    print print_suffix_tree(st, 'eps')
 
 
     suffix_searcher = searcher.SuffixTreeSearcher()
