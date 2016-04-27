@@ -9,8 +9,10 @@ class TrieNode:
         self.first_index = first_index
         self.child = child
         self.sibling = sibling
-        self.construction_number = construction_number
-        self.dfs_number = dfs_number
+
+        #self.construction_number = construction_number
+
+        #self.dfs_number = dfs_number
 
 
 
