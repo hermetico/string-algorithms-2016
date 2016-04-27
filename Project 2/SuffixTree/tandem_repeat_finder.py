@@ -12,7 +12,7 @@ class tandem_repeat_finder():
         self.output = []
 
 
-    def tandem_repeat_search(self, key, node=None, key_index=0, tree=None):
+    def tandem_repeat_search(self, node=None, tree=None):
 
         if tree is not None:
             self.refill(tree)
@@ -23,19 +23,19 @@ class tandem_repeat_finder():
 
 
         ##### depth first numbering #####
+        self.dfs_numbering(self.root,0)#from 1 if we want
 
 
-        #dfs_numbering(tree);
-
-    def dfs_numbering(self, node, amount):
+    def dfs_numbering(self, node, number):
 
         if node.child is not None:
-            self.__leaf_search__(node.child, amount + 1 + node.last_index() - node.first_index())
-        else:
-            self.output.append(self.end - (amount + node.last_index() - node.first_index()))
+            self.dfs_numbering(node.child, number)
+        else: ##this is a child
+            node.dfs_number = number
+            number+=1
 
         if node.sibling is not None:
-            self.__leaf_search__(node.sibling, amount)
+            self.dfs_numbering(node.sibling, number)
 
 
 
