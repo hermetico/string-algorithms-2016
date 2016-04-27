@@ -19,8 +19,8 @@ def main(argv):
     print print_suffix_tree(st, 'png')
 
 
-    tandem_finder = tandem_repeat_finder.tandem_repeat_finder()
-    tandem_finder.tandem_repeat_search(tree=st)
+    #tandem_finder = tandem_repeat_finder.tandem_repeat_finder()
+    #tandem_finder.tandem_repeat_search(tree=st)
 
 
 if __name__ == "__main__":
