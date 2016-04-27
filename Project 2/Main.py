@@ -1,7 +1,7 @@
 import sys
 from SuffixTree.SuffixTree import SuffixTree
 from tools.outputs import print_suffix_tree
-from SuffixTree import searcher
+from SuffixTree import tandem_repeat_finder
 
 
 def main(argv):
@@ -15,13 +15,12 @@ def main(argv):
         st = SuffixTree(content)
 
     print "SuffixTree construction complete"
-    print "looking for %s"%( search_string)
     # install graphviz library to print and show an image of the tree
-    print print_suffix_tree(st, 'eps')
+    print print_suffix_tree(st, 'png')
 
 
-    suffix_searcher = searcher.SuffixTreeSearcher()
-    suffix_searcher.search(search_string, tree=st)
+    tandem_finder = tandem_repeat_finder.tandem_repeat_finder()
+    tandem_finder.tandem_repeat_search(tree=st)
 
 
 if __name__ == "__main__":

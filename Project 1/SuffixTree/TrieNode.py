@@ -4,6 +4,7 @@ class TrieNode:
         self.indexes = indexes
         self.child = child
         self.sibling = sibling
+        self.suffix_start = 0
 
     def first_index(self):
         return self.indexes[0]
