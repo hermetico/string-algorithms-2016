@@ -31,8 +31,8 @@ def print_suffix_tree(tree, format="png"):
 
     # post process: add labels and edges to te graph
     for node, parent in parent_of.items():
-        label = str((node.first_index() + 1, node.last_index()+1)) + ''
-        label += ''.join([string[x] for x in range(node.indexes[0], node.indexes[1] + 1)])
+        label = str((node.first_index + 1, node.last_index + 1)) + ''
+        label += ''.join([string[x] for x in range(node.first_index, node.last_index + 1)])
         dot.edge(visited[parent], visited[node], label.replace("\n", "\\n"))
 
     dot.body.append('label = "\\n\\n' + tree.string.replace("\n", "\\n") + '\\n"')

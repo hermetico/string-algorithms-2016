@@ -4,7 +4,7 @@ class SuffixTree(object):
     """A fancy Suffix Tree with an amazing performance"""
 
     def __init__(self, string=None, end_key='$'):
-        self.root = TrieNode((-1, -1), None, None)
+        self.root = TrieNode(-1, -1)
         self.end_key = end_key
         self.string = ''
         self.end = 0
@@ -22,7 +22,7 @@ class SuffixTree(object):
 
         # starts with an empty root, which first child will be the whole string
         # (week:1 slide:81)
-        self.root.child = TrieNode((0, self.end), None, None)
+        self.root.child = TrieNode(0, self.end)
         for i in range (1, self.end + 1):
             self.add_suffix(i, self.root)
 
@@ -38,7 +38,7 @@ class SuffixTree(object):
         # Two things could happen:
         #   1 - There are not nodes which match the starting character -> we return the last sibling and False
         #   2 - There is a matching start character -> we return the node and True
-        while self.string[node.first_index()] != ch:
+        while self.string[node.first_index] != ch:
             if node.sibling is None: return node, False
             # move to the sibling to check if the first character matches
             node = node.sibling
@@ -50,17 +50,17 @@ class SuffixTree(object):
         # We search for the node which matches the first character
         node, found = self.__get_first_ch_node__(node, self.string[suffix_index])
         if not found:
-            node.sibling = TrieNode((suffix_index, self.end), None, None)
+            node.sibling = TrieNode(suffix_index, self.end)
             return
 
         # We loop comparing the characters of the input
         # with the characters of the current node
-        string_index = node.first_index()
+        string_index = node.first_index
         while self.string[suffix_index] == self.string[string_index]:
 
             # We check if this is the last character of the node
             # if that is the case, we do a recursive call with the child node
-            if string_index == node.last_index():
+            if string_index == node.last_index:
                 # we need to add 1, otherwise the index would be out of bounds of the node
                 self.add_suffix(suffix_index + 1, node)
                 return
@@ -72,7 +72,7 @@ class SuffixTree(object):
         node = self.expand_node(node, string_index)
 
         # Now, we create the third node, which will be the sibling of the child of the current node
-        new_sibling = TrieNode((suffix_index, self.end), None, None)
+        new_sibling = TrieNode(suffix_index, self.end)
         node.child.sibling = new_sibling
 
 
@@ -91,13 +91,19 @@ class SuffixTree(object):
             M->CH  :  M->N->CH
             Where M is main_node, CH is child_node and N is new_node
         """
+        # creates indexes for the nodes
+        main_node_first = node.first_index
+        main_node_last = split_index - 1
 
-        main_node_indexes = (node.first_index(), split_index - 1)
-        new_node_indexes = (split_index, node.last_index())
+        new_node_first = split_index
+        new_node_last = node.last_index
 
+        # creates new node
+        new_node = TrieNode(new_node_first, new_node_last, node.child)
 
-        new_node = TrieNode(new_node_indexes, node.child)
-        node.indexes = main_node_indexes
+        # applyes indexes
+        node.first_index = main_node_first
+        node.last_index = main_node_last
         node.child = new_node
 
         return node

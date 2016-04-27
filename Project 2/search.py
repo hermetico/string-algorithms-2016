@@ -5,6 +5,7 @@ from SuffixTree import searcher
 import time
 from tools.size import getsize
 
+
 def main(argv):
     filename = argv[0]
     search_string = argv[1]

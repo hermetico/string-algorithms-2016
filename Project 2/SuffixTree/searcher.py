@@ -27,14 +27,14 @@ class SuffixTreeSearcher():
         if not found:
             return ""  # False #whatever output means that the search failed
 
-        suffix_index = node.first_index()
+        suffix_index = node.first_index
         while self.string[suffix_index] == key[key_index]:
             key_index += 1
             if key_index == len(key):
                 # print suffix_index - len(key) + 2
                 if node.child is not None:
-                    if suffix_index != node.last_index():
-                        self.__leaf_search__(node.child, len(key) + (node.last_index() - suffix_index))
+                    if suffix_index != node.last_index:
+                        self.__leaf_search__(node.child, len(key) + (node.last_index - suffix_index))
                     else:
                         self.__leaf_search__(node.child, len(key))
                 else:
@@ -45,7 +45,7 @@ class SuffixTreeSearcher():
 
             # We check if this is the last character of the node
             # if that is the case, we do a recursive call with the child node
-            if suffix_index == node.last_index():
+            if suffix_index == node.last_index:
                 # we need to add 1, otherwise the index would be out of bounds of the node
                 return self.search(key, node, key_index)
 
@@ -58,9 +58,9 @@ class SuffixTreeSearcher():
     def __leaf_search__(self, node, amount):
 
         if node.child is not None:
-            self.__leaf_search__(node.child, amount + 1 + node.last_index() - node.first_index())
+            self.__leaf_search__(node.child, amount + 1 + node.last_index - node.first_index)
         else:
-            self.output.append(self.end - (amount + node.last_index() - node.first_index()))
+            self.output.append(self.end - (amount + node.last_index - node.first_index))
 
         if node.sibling is not None:
             self.__leaf_search__(node.sibling, amount)
