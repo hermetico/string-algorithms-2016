@@ -12,7 +12,6 @@ def main(argv):
         st = SuffixTree(content)
 
         # search for the tandem
-        tandem_finder.
 
 
 if __name__ == "__main__":
