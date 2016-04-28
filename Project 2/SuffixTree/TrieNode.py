@@ -17,8 +17,6 @@ class TrieNode(object):
         self.marked = False
         self.depth = depth
 
-        #self.C2D = None##just for visualizing. delete it maybe
-        #self.D2C = None
 
 
 
