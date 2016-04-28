@@ -9,6 +9,7 @@ class SuffixTree(object):
         self.string = ''
         self.end = 0
         self.output = []
+        self.leaves = 1
 
         if string:
             self.construct_tree(string)
@@ -22,7 +23,7 @@ class SuffixTree(object):
 
         # starts with an empty root, which first child will be the whole string
         # (week:1 slide:81)
-        self.root.child = TrieNode(0, self.end)
+        self.root.child = TrieNode(0, self.end, construction_number=self.leaves)
         for i in range (1, self.end + 1):
             self.add_suffix(i, self.root)
 
@@ -50,7 +51,8 @@ class SuffixTree(object):
         # We search for the node which matches the first character
         node, found = self.__get_first_ch_node__(node, self.string[suffix_index])
         if not found:
-            node.sibling = TrieNode(suffix_index, self.end)
+            self.leaves += 1
+            node.sibling = TrieNode(suffix_index, self.end, construction_number=self.leaves)
             return
 
         # We loop comparing the characters of the input
@@ -72,7 +74,8 @@ class SuffixTree(object):
         node = self.expand_node(node, string_index)
 
         # Now, we create the third node, which will be the sibling of the child of the current node
-        new_sibling = TrieNode(suffix_index, self.end)
+        self.leaves += 1
+        new_sibling = TrieNode(suffix_index, self.end, construction_number=self.leaves)
         node.child.sibling = new_sibling
 
 
@@ -99,12 +102,14 @@ class SuffixTree(object):
         new_node_last = node.last_index
 
         # creates new node
-        new_node = TrieNode(new_node_first, new_node_last, node.child)
+        new_node = TrieNode(new_node_first, new_node_last, node.child,
+                            construction_number=node.construction_number)
 
         # applyes indexes
         node.first_index = main_node_first
         node.last_index = main_node_last
         node.child = new_node
+        node.construction_number = None
 
         return node
 
