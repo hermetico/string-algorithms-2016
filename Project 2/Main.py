@@ -18,8 +18,8 @@ def main(argv):
 
 
 
-    #tandem_finder = tandem_repeat_finder.tandem_repeat_finder()
-    #tandem_finder.tandem_repeat_search(tree=st)
+    tandem_finder = tandem_repeat_finder.tandem_repeat_finder()
+    tandem_finder.dfs_init(tree=st)
 
     print print_suffix_tree(st, 'png')
 
