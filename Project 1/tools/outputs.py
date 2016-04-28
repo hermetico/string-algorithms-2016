@@ -14,7 +14,7 @@ def print_suffix_tree(tree, format="png"):
         node = queue.pop(0)
         if node not in visited:
             visited[node] = str(node_name)
-            dot.node(str(node_name), label='')
+            dot.node(str(node_name), label=node.construction_number+"\n"+node.dfs_number)
             if node.sibling is not None:
                 parent = parent_of[node]
                 sib = node.sibling
