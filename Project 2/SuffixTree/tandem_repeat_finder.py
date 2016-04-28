@@ -10,6 +10,8 @@ class tandem_repeat_finder():
         self.string = st.string
         self.end = st.end
         self.output = []
+        self.d2cmap = [-1]*(len(st.string))
+        self.c2dmap = [-1]*(len(st.string))
 
 
     def dfs_init(self, node=None, tree=None):
@@ -22,23 +24,29 @@ class tandem_repeat_finder():
             self.output = []
 
 
-        ##### depth first numbering #####
+        ##### depth first numbering and map d2c/c2d creation#####
         self.dfs_numbering(self.root,0)#from 1 if we want
+
+        print "c2d: " + str(self.c2dmap)
+        print "d2c: " + str(self.d2cmap)
 
 
     def dfs_numbering(self, node, number):
 
+
         if node.child is not None: ##internal node
-            self.interval_start = number
+            node.interval_start = number
             number = self.dfs_numbering(node.child, number)
-            self.interval_end = number
+            node.interval_end = number-1
         else: ##leaf
             node.dfs_number = number
+            self.d2cmap[number] = node.construction_number
+            self.c2dmap[node.construction_number] = number
             number+=1
 
 
         if node.sibling is not None:
-            self.dfs_numbering(node.sibling, number)
+            return self.dfs_numbering(node.sibling, number)
         else: #last sibling, return to parent now
             return number
 
