@@ -9,7 +9,7 @@ class SuffixTree(object):
         self.string = ''
         self.end = 0
         self.output = []
-        self.leaves = 1
+        self.leaves = 0
 
         if string:
             self.construct_tree(string)
