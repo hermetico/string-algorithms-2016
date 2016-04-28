@@ -1,7 +1,7 @@
 class TrieNode(object):
     """A suffix tree node representation"""
     # we use slots to optimize the space consumption, adding each value we are going to use
-    __slots__ = ['first_index', 'last_index', 'child', 'sibling', 'construction_number', 'dfs_number', 'marked']
+    __slots__ = ['first_index', 'last_index', 'child', 'sibling', 'interval_start', 'interval_end', 'construction_number', 'dfs_number', 'marked']
 
     def __init__(self, first_index=None, last_index=None, child=None, sibling=None,
                  construction_number=None, dfs_number=None, interval_s=None, interval_e=None):
