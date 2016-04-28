@@ -14,7 +14,7 @@ class tandem_repeat_finder():
         self.c2dmap = [-1]*(len(st.string))
 
 
-    def dfs_init(self, node=None, tree=None):
+    def dfs_init(self, node=None, tree=None, depth=0):
 
         if tree is not None:
             self.refill(tree)
@@ -25,29 +25,34 @@ class tandem_repeat_finder():
 
 
         ##### depth first numbering and map d2c/c2d creation#####
-        self.dfs_numbering(self.root,0)#from 1 if we want
+        self.dfs_numbering(self.root,0,depth)
 
+
+        self.tree.C2D = str(self.c2dmap)
+        self.tree.D2C = str(self.d2cmap)
         print "c2d: " + str(self.c2dmap)
         print "d2c: " + str(self.d2cmap)
 
 
-    def dfs_numbering(self, node, number):
+    def dfs_numbering(self, node, number, depth):
 
+        if node.child is not None: ##we have child
 
-        if node.child is not None: ##internal node
+            node.depth = depth ##only need depth in internal nodes
             node.interval_start = number
-            number = self.dfs_numbering(node.child, number)
+            number = self.dfs_numbering(node.child, number,depth+1+(node.child.last_index - node.child.first_index))
+
             node.interval_end = number-1
-        else: ##leaf
+        else: ##we are leaf
             node.dfs_number = number
             self.d2cmap[number] = node.construction_number
             self.c2dmap[node.construction_number] = number
             number+=1
 
 
-        if node.sibling is not None:
-            return self.dfs_numbering(node.sibling, number)
-        else: #last sibling, return to parent now
+        if node.sibling is not None: ##we have sibling
+            return self.dfs_numbering(node.sibling, number,depth-(node.last_index-node.first_index)+(node.sibling.last_index-node.sibling.first_index))
+        else: #we are last sibling
             return number
 
 

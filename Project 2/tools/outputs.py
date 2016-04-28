@@ -16,11 +16,12 @@ def print_suffix_tree(tree, format="png"):
             visited[node] = str(node_name)
             label = ""
             if node.construction_number is not None:
-                label = "c: %i" %(node.construction_number+1)
-                label += "\\nd: %i" %(node.dfs_number+1)
+                label = "Cons: %i" %(node.construction_number)
+                label += "\\nDFS: %i" %(node.dfs_number)
 
             if node.interval_start is not None:
-                label = "(%i, %i)"%(node.interval_start+1, node.interval_end+1)
+                label = "DFS: (%i, %i)"%(node.interval_start, node.interval_end)
+                label += "\\nDepth: %i"%(node.depth)
             dot.node(str(node_name), label=label)
 
             if node.sibling is not None:
@@ -43,7 +44,7 @@ def print_suffix_tree(tree, format="png"):
         label += ''.join([string[x] for x in range(node.first_index, node.last_index + 1)])
         dot.edge(visited[parent], visited[node], label.replace("\n", "\\n"))
 
-    dot.body.append('label = "\\n\\n' + tree.string.replace("\n", "\\n") + '\\n"')
+    dot.body.append('label = "\\n\\n' + tree.string.replace("\n", "\\n") + '\\n C2D: '+tree.C2D+'\\n D2C: '+tree.D2C+ ' "')
     # shows the graph in a picture (i do not think this works within the c9 ide, use pycharm or something)
     dot.render('graphs/suffix-tree', view=True)
 
