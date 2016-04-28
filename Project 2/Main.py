@@ -2,6 +2,7 @@ import sys
 from SuffixTree.SuffixTree import SuffixTree
 from tools.outputs import print_suffix_tree
 from SuffixTree import tandem_repeat_finder
+from SuffixTree.SuffixTree import find_branches
 
 
 def main(argv):
@@ -18,6 +19,11 @@ def main(argv):
 
     #tandem_finder = tandem_repeat_finder.tandem_repeat_finder()
     #tandem_finder.tandem_repeat_search(tree=st)
+    
+    
+    print "Starting to look for branching tendem repeats"
+    branches = find_branches()
+    
     
     print st.root.child.child.first_index
     print st.root.child.child.last_index
