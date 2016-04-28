@@ -16,9 +16,9 @@ def print_suffix_tree(tree, format="png"):
             visited[node] = str(node_name)
             label = ""
             if node.construction_number is not None:
-                label = "%i" %(node.construction_number)
+                label = "%i" %(node.construction_number+1)
             if node.dfs_number is not None:
-                label += "\\n%i" %(node.dfs_number)
+                label += "\\n%i" %(node.dfs_number+1)
             dot.node(str(node_name), label=label)
             if node.sibling is not None:
                 parent = parent_of[node]

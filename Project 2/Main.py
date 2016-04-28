@@ -16,8 +16,6 @@ def main(argv):
     print "SuffixTree construction complete"
     # install graphviz library to print and show an image of the tree
 
-
-
     tandem_finder = tandem_repeat_finder.tandem_repeat_finder()
     tandem_finder.dfs_init(tree=st)
 
