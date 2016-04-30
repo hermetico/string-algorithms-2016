@@ -1,9 +1,8 @@
-def print_suffix_tree(tree, format="png"):
+def print_suffix_tree(tree, extra_info=dict(), format="png"):
     from graphviz import Digraph
     root = tree.root
     string = tree.string
     dot = Digraph('SufixTree', format=format)
-    
     visited = dict()
     queue = [root]
     parent_of = dict()
@@ -16,12 +15,12 @@ def print_suffix_tree(tree, format="png"):
             visited[node] = str(node_name)
             label = ""
             if node.construction_number is not None:
-                label = "Cons: %i" %(node.construction_number)
-                label += "\\nDFS: %i" %(node.dfs_number)
+                label = "Cons: %i" %(node.construction_number + 1)  # +1 to avoid 0's
+                label += "\\nDFS: %i" %(node.dfs_number + 1)  # +1 to avoid 0's
+            if node in extra_info:
 
-            if node.interval_start is not None:
-                label = "DFS: (%i, %i)"%(node.interval_start, node.interval_end)
-                label += "\\nDepth: %i"%(node.depth)
+                label = "DFS: (%i, %i)"%(extra_info[node][0] + 1, extra_info[node][1] + 1)
+                label += "\\nDepth: %i"%(extra_info[node][2])
             dot.node(str(node_name), label=label)
 
             if node.sibling is not None:
@@ -44,7 +43,13 @@ def print_suffix_tree(tree, format="png"):
         label += ''.join([string[x] for x in range(node.first_index, node.last_index + 1)])
         dot.edge(visited[parent], visited[node], label.replace("\n", "\\n"))
 
-    dot.body.append('label = "\\n\\n' + tree.string.replace("\n", "\\n") + '\\n C2D: '+tree.C2D+'\\n D2C: '+tree.D2C+ ' "')
+    dot.body.append(
+        'label = "\\n\\n' +
+        tree.string.replace("\n", "\\n") +
+        '\\n C2D: ' + str([x + 1 for x in tree.C2D]) +
+        '\\n D2C: ' + str([x + 1 for x in tree.D2C]) +
+        ' "'
+    )
     # shows the graph in a picture (i do not think this works within the c9 ide, use pycharm or something)
     dot.render('graphs/suffix-tree', view=True)
 
