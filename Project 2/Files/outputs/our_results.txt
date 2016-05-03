@@ -1,12 +1,12 @@
 
 	abaabaabbba.txt: 4 3
-	abcabc.txt: 1 0
-	fib10.txt: 65 170
-	fib15.txt: 751 4477
-	gene1.txt: 410 134
-	gene2.txt: 795 449
-	gene42.txt: 1067 502
-	mississippi.txt: 4 1
-	protein1.txt: 22 8
 	protein2.txt: 21 2
+	fib15.txt: 751 4477
+	abcabc.txt: 1 0
+	protein1.txt: 22 8
+	gene42.txt: 1067 502
+	gene1.txt: 410 134
+	mississippi.txt: 4 1
+	gene2.txt: 795 449
 	test-file.txt: 4 5
+	fib10.txt: 65 170

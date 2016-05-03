@@ -26,9 +26,9 @@ def main(argv):
                                     tandem_finder.c2dmap,
                                     tandem_finder.d2cmap,
                                     tandem_finder.internal_nodes)
-    branches_finder.start_basic_algorithm()
+    branches_finder.start_optimized_basic_algorithm()
 
-
+"""
     tandemrepeats = []
     tandemrepeats.append(branches_finder.b_t_r)
     for ind, length, two in branches_finder.b_t_r:
@@ -40,10 +40,12 @@ def main(argv):
     #print "\n\n\tThe tandem repeats: " + str(tandemrepeats) ##testing output
 
 
-    str = "\n\t"+filename+": %i %i"%(len(tandemrepeats[0]),len(tandemrepeats)-1) ##Output that they ask for in the assignment
+    str = "\n\t"+filename+": %i %i"%( len(tandemrepeats[0]) , len(tandemrepeats)-1 ) ##Output that they ask for in the assignment
     print str
     return str
 
+    
+"""
 
 
 if __name__ == "__main__":

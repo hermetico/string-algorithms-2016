@@ -1,4 +1,5 @@
 TRACE = False
+SHOWTANDEMS = False
 
 class find_branches():
     def __init__(self, st, c2d, d2c, hash_map):
@@ -17,7 +18,6 @@ class find_branches():
         # 1. Select an unmarked internal node v
         #    Mark v and execute steps 2a and 2b for node v
         for value in self.internal_nodes.values():
-            #print "TEST " + str(value)
             # 2a. Collect the leaf-list LL(v)
             leaf_list = ()
             if TRACE:
@@ -35,8 +35,12 @@ class find_branches():
                 j = i + value[2]
                 if j in leaf_list:
                     if self.tree.string[i] != self.tree.string[ i + 2 * value[2] ]:
-                        print "\tBranching tendem repeat found"
-                        print "\tAt index: ", i, " with length: ", value[2]
+                        if SHOWTANDEMS:
+                            print "\tBranching tendem repeat found"
+                            print "\tAt index: ", i, " with length: ", value[2]
+                        ##make verbose maybe
+                        #print "Branching tendem repeat found"
+                        #print "At index: ", i, " with length: ", value[2]
                         t = (i, value[2], 2)
                         self.b_t_r.append(t)
     
@@ -52,6 +56,7 @@ class find_branches():
             if node.child not in self.internal_nodes:
                 # here the max_leaf_list is the construction number of the first child
                 max_leaf_list = (self.d2c[node.child.construction_number],)
+                maxInterval = (node.child.construction_number, node.child.construction_number)
 
             else:
                 child = node.child
@@ -85,7 +90,6 @@ class find_branches():
 
             if TRACE:
                 print "\nSearching in node DFS: (%i, %i) "%(value[0] + 1, value[1] + 1)
-            if TRACE:
                 print "\tFirst sibling interval DFS: (%i, %i) "%(maxInterval[0] + 1, maxInterval[1] + 1)
 
             # check: value[1] + 1, maybe. TODO
@@ -134,14 +138,16 @@ class find_branches():
             for i in leaf_list:
                 if i+value[2] in total_leaf_list:
                     if self.tree.string[i] != self.tree.string[i + 2 * value[2]]:
-                        print "\tBranching tendem repeat found"
-                        print "\tAt index: ", i, " with length: ", value[2]
+                        if SHOWTANDEMS:
+                            print "\tBranching tendem repeat found"
+                            print "\tAt index: ", i, " with length: ", value[2]
                         t = (i, value[2], 2)
                         self.b_t_r.append(t)
                 elif i-value[2] in max_leaf_list:
                     if self.tree.string[i-value[2] != self.tree.string[i + value[2]]]:
-                        print "\tBranching tendem repeat found"
-                        print "\tAt index: ", i, " with length: ", value[2]
+                        if SHOWTANDEMS:
+                            print "\tBranching tendem repeat found"
+                            print "\tAt index: ", i, " with length: ", value[2]
                         t = (i, value[2], 2)
                         self.b_t_r.append(t)
                        
