@@ -9,4 +9,3 @@
 	mississippi.txt: 4 1
 	protein1.txt: 22 8
 	protein2.txt: 21 2
-	test-file.txt: 4 5
