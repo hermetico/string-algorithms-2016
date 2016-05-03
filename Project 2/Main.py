@@ -26,8 +26,10 @@ def main(argv):
     branches_finder.start_basic_algorithm()
 
 
-
-    print_suffix_tree(st, extra_info=tandem_finder.internal_nodes,  format='png')
+    print "Testing optimized basic algorithm"
+    branches_finder.start_optimized_basic_algorithm()
+    
+    #print_suffix_tree(st, extra_info=tandem_finder.internal_nodes,  format='png')
 
 
 if __name__ == "__main__":
