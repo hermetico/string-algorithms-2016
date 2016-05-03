@@ -14,7 +14,10 @@ def main(argv):
         content = file_object.read()
         st = SuffixTree(content)
 
-    print "SuffixTree construction complete"
+    #print "SuffixTree construction complete"
+    #print_suffix_tree(st, extra_info=tandem_finder.internal_nodes,  format='png')
+
+
     tandem_finder = tandem_repeat_finder.tandem_repeat_finder()
     tandem_finder.dfs_init(tree=st)
 
@@ -26,8 +29,23 @@ def main(argv):
     branches_finder.start_basic_algorithm()
 
 
+    ###make a list, add branchings, and then non branchings
+    ##We can add this part to another file
+    tandemrepeats = []
+    tandemrepeats.append(branches_finder.b_t_r)
+    for ind, length, two in branches_finder.b_t_r:
+        i=1
+        while content[ind-i] == content[ind+length-i]:
+            tandemrepeats.append((ind-i,length,2))
+            i +=1
 
-    print_suffix_tree(st, extra_info=tandem_finder.internal_nodes,  format='png')
+    #print "\n\n\tThe tandem repeats: " + str(tandemrepeats) ##testing output
+
+
+    str = "\n\t"+filename+": %i %i"%(len(tandemrepeats[0]),len(tandemrepeats)-1) ##Output that they ask for in the assignment
+    print str
+    return str
+
 
 
 if __name__ == "__main__":

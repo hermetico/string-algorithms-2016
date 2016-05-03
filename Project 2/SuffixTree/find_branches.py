@@ -31,8 +31,9 @@ class find_branches():
                 j = i + value[2]
                 if j in leaf_list:
                     if self.tree.string[i] != self.tree.string[ i + 2 * value[2] ]:
-                        print "Branching tendem repeat found"
-                        print "At index: ", i, " with length: ", value[2]
+                        ##make verbose maybe
+                        #print "Branching tendem repeat found"
+                        #print "At index: ", i, " with length: ", value[2]
                         t = (i, value[2], 2)
                         self.b_t_r.append(t)
     
