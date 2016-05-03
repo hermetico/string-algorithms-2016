@@ -31,8 +31,10 @@ class tandem_repeat_finder():
 
         self.tree.C2D = self.c2dmap
         self.tree.D2C = self.d2cmap
-        print "c2d: " + str(self.c2dmap)
-        print "d2c: " + str(self.d2cmap)
+
+        ##make verbose argument maybe
+        #print "c2d: " + str(self.c2dmap)
+        #print "d2c: " + str(self.d2cmap)
 
 
     def dfs_numbering(self, node, number, depth):
