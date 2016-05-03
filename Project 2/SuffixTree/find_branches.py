@@ -55,9 +55,8 @@ class find_branches():
             
             if node.child not in self.internal_nodes:
                 # here the max_leaf_list is the construction number of the first child
-                max_leaf_list = (self.d2c[node.child.construction_number],)
+            #    max_leaf_list = (self.d2c[node.child.construction_number],)
                 maxInterval = (node.child.construction_number, node.child.construction_number)
-
             else:
                 child = node.child
                 intervals = self.internal_nodes[child]
@@ -100,9 +99,10 @@ class find_branches():
                 if(v < maxInterval[0] or v > maxInterval[1]):
                     leaf_list += (self.d2c[v],)
                 elif (maxInterval[0] == maxInterval[1]):
-                    if v == value[0]:
-                        max_leaf_list += (self.d2c[v],)
-                    else:
+
+                   if v == value[0]:
+                         max_leaf_list += (self.d2c[v],)
+                   else:
                         leaf_list += (self.d2c[v],)
                 else:
                     max_leaf_list += (self.d2c[v],)
@@ -148,9 +148,9 @@ class find_branches():
                         if SHOWTANDEMS:
                             print "\tBranching tendem repeat found"
                             print "\tAt index: ", i, " with length: ", value[2]
-                        t = (i, value[2], 2)
+                        t = (i - value[2], value[2], 2)
                         self.b_t_r.append(t)
-                       
+
                     
             
     def find_rest_of_tandem_occurrences(self): #Doing a series of consecutive left-rotations to find all occurrences of tandem repeats

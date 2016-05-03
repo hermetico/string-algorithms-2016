@@ -22,16 +22,24 @@ def main(argv):
     tandem_finder.dfs_init(tree=st)
 
 
-    branches_finder = find_branches(st,
+    branches_finder_bas = find_branches(st,
                                     tandem_finder.c2dmap,
                                     tandem_finder.d2cmap,
                                     tandem_finder.internal_nodes)
-    branches_finder.start_optimized_basic_algorithm()
+    branches_finder_bas.start_basic_algorithm()
+
+
+    branches_finder_opt = find_branches(st,
+                                    tandem_finder.c2dmap,
+                                    tandem_finder.d2cmap,
+                                    tandem_finder.internal_nodes)
+    branches_finder_opt.start_optimized_basic_algorithm()
+
 
 """
     tandemrepeats = []
-    tandemrepeats.append(branches_finder.b_t_r)
-    for ind, length, two in branches_finder.b_t_r:
+    tandemrepeats.append(branches_finder_opt.b_t_r)
+    for ind, length, two in branches_finder_opt.b_t_r:
         i=1
         while content[ind-i] == content[ind+length-i]:
             tandemrepeats.append((ind-i,length,2))
@@ -42,6 +50,11 @@ def main(argv):
 
     str = "\n\t"+filename+": %i %i"%( len(tandemrepeats[0]) , len(tandemrepeats)-1 ) ##Output that they ask for in the assignment
     print str
+
+    print branches_finder_bas.b_t_r
+    print branches_finder_opt.b_t_r
+
+
     return str
 
     
