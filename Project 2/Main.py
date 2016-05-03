@@ -18,14 +18,16 @@ def main(argv):
     tandem_finder = tandem_repeat_finder.tandem_repeat_finder()
     tandem_finder.dfs_init(tree=st)
 
-    """
+
     branches_finder = find_branches(st,
                                     tandem_finder.c2dmap,
                                     tandem_finder.d2cmap,
                                     tandem_finder.internal_nodes)
     branches_finder.start_basic_algorithm()
-    """
-    print print_suffix_tree(st, extra_info=tandem_finder.internal_nodes,  format='png')
+
+
+
+    print_suffix_tree(st, extra_info=tandem_finder.internal_nodes,  format='png')
 
 
 if __name__ == "__main__":
