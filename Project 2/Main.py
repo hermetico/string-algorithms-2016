@@ -36,7 +36,7 @@ def main(argv):
     branches_finder_opt.start_optimized_basic_algorithm()
 
 
-"""
+    ##leftrotation:
     tandemrepeats = []
     tandemrepeats.append(branches_finder_opt.b_t_r)
     for ind, length, two in branches_finder_opt.b_t_r:
@@ -51,14 +51,14 @@ def main(argv):
     str = "\n\t"+filename+": %i %i"%( len(tandemrepeats[0]) , len(tandemrepeats)-1 ) ##Output that they ask for in the assignment
     print str
 
-    print branches_finder_bas.b_t_r
-    print branches_finder_opt.b_t_r
+    #print branches_finder_bas.b_t_r
+    #print branches_finder_opt.b_t_r
 
 
     return str
 
     
-"""
+
 
 
 if __name__ == "__main__":

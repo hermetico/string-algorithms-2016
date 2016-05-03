@@ -7,5 +7,5 @@
 	gene42.txt: 1067 502
 	gene1.txt: 410 134
 	mississippi.txt: 4 1
-	protein1.txt: 22 8
-	protein2.txt: 21 2
+	gene2.txt: 795 449
+	fib10.txt: 65 170
