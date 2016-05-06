@@ -1,19 +1,45 @@
 TRACE = False
 SHOWTANDEMS = False
 
-class find_branches():
-    def __init__(self, st, c2d, d2c, hash_map):
+class TandemFinder():
+    def __init__(self, st, dfs_preproces):
         self.tree = st
-        self.c2d = c2d
-        self.d2c = d2c
-        self.internal_nodes = hash_map
+        self.c2d = dfs_preproces.c2dmap
+        self.d2c = dfs_preproces.d2cmap
+        self.internal_nodes = dfs_preproces.internal_nodes
         #Contains <TrieNode, (Integer, Integer)> - the integers is the dpf interval of the internal node
         #^^It also contains depth of node. --Martin
 
         # branching tandem repeats
         self.b_t_r = []
+        # non branching tandem repeats
+        self.nb_t_r = []
 
-    def start_basic_algorithm(self):
+
+    def run(self, method='basic'):
+        if method == 'basic':
+            return self.basic()
+        elif method == 'optimized':
+            return self.optimized()
+
+    def basic(self):
+        """Runs the optimized algorithm and the left rotation"""
+        self.b_t_r, self.nb_t_r = [], []
+        self.__start_basic_algorithm__()
+        self.__left_rotation__()
+
+        return {'b-t-r': self.b_t_r, 'non-b-t-r': self.nb_t_r}
+
+    def optimized(self):
+        """Runs the optimized algorithm and the left rotation"""
+        self.b_t_r, self.nb_t_r = [], []
+        self.__start_optimized_basic_algorithm__()
+        self.__left_rotation__()
+
+        return {'b-t-r': self.b_t_r, 'non-b-t-r': self.nb_t_r}
+
+
+    def __start_basic_algorithm__(self):
         
         # 1. Select an unmarked internal node v
         #    Mark v and execute steps 2a and 2b for node v
@@ -43,9 +69,9 @@ class find_branches():
                         #print "At index: ", i, " with length: ", value[2]
                         t = (i, value[2], 2)
                         self.b_t_r.append(t)
-    
-    
-    def start_optimized_basic_algorithm(self):
+
+
+    def __start_optimized_basic_algorithm__(self):
 
         for node, value in self.internal_nodes.items():
             # 2a. Collect the leaf-list LL(v) and LL'(v)
@@ -77,10 +103,7 @@ class find_branches():
                     
                     if TRACE:
                         print "\tnext Sibling interval DFS: (%i, %i) "%(potentialInterval[0] + 1, potentialInterval[1] + 1)
-                        
-                    #print "maxInterval: ", maxInterval
-                    #print "potentialInterval: ", potentialInterval
-                        
+
                     if (potentialInterval[1] - potentialInterval[0]) > (maxInterval[1] - maxInterval[0]):
                         maxInterval = potentialInterval
                     
@@ -151,8 +174,15 @@ class find_branches():
                         t = (i - value[2], value[2], 2)
                         self.b_t_r.append(t)
 
-                    
-            
+
+    def __left_rotation__(self):
+        for ind, length, two in self.b_t_r:
+            i = 1
+            while self.tree.string[ind - i] == self.tree.string[ind + length - i]:
+                self.nb_t_r.append((ind - i, length, 2))
+                i += 1
+
+
     def find_rest_of_tandem_occurrences(self): #Doing a series of consecutive left-rotations to find all occurrences of tandem repeats
         print "Finding rest of tandem occurences"
         

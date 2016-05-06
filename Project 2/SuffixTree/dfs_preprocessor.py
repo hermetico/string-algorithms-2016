@@ -1,4 +1,4 @@
-class tandem_repeat_finder():
+class DFS_preprocessor():
     def __init__(self, st=None):
         if st is not None:
             self.refill(st)

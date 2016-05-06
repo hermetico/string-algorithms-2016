@@ -1,7 +1,7 @@
 import sys
 from SuffixTree.SuffixTree import SuffixTree
 from SuffixTree.TrieNode import TrieNode
-from SuffixTree import tandem_repeat_finder as searcher
+from SuffixTree import dfs_preprocessor as searcher
 
 def main(argv):
     filename = argv[0]

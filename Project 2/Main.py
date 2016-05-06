@@ -1,8 +1,8 @@
 import sys
 from SuffixTree.SuffixTree import SuffixTree
 from tools.outputs import print_suffix_tree
-from SuffixTree import tandem_repeat_finder
-from SuffixTree.find_branches import find_branches
+from SuffixTree import dfs_preprocessor
+from SuffixTree.tandem_finder import TandemFinder
 
 
 def main(argv):
@@ -14,51 +14,48 @@ def main(argv):
         content = file_object.read()
         st = SuffixTree(content)
 
-    #print "SuffixTree construction complete"
-    #print_suffix_tree(st, extra_info=tandem_finder.internal_nodes,  format='png')
+    preprocess = dfs_preprocessor.DFS_preprocessor()
+    preprocess.dfs_init(tree=st)
+
+    method = 'basic'
+    if len(argv) > 1:
+        method = argv[1]
 
 
-    tandem_finder = tandem_repeat_finder.tandem_repeat_finder()
-    tandem_finder.dfs_init(tree=st)
+    if method == 'basic':
+        tandem_finder = TandemFinder(st,preprocess)
+        tandem_repeats = tandem_finder.run(method='basic')
+
+    elif method == 'optimized':
+        tandem_finder = TandemFinder(st,preprocess)
+        tandem_repeats = tandem_finder.run(method='optimized')
 
 
-    branches_finder_bas = find_branches(st,
-                                    tandem_finder.c2dmap,
-                                    tandem_finder.d2cmap,
-                                    tandem_finder.internal_nodes)
-    branches_finder_bas.start_basic_algorithm()
+    output =  "%s: %i %i\n" %(filename, len(tandem_repeats['b-t-r']), len(tandem_repeats['non-b-t-r']))
+    print output
+    return output
 
 
-    branches_finder_opt = find_branches(st,
-                                    tandem_finder.c2dmap,
-                                    tandem_finder.d2cmap,
-                                    tandem_finder.internal_nodes)
-    branches_finder_opt.start_optimized_basic_algorithm()
+"""
+##leftrotation:
+tandemrepeats = []
+tandemrepeats.append(tandem_finder_opt.b_t_r)
+for ind, length, two in tandem_finder_opt.b_t_r:
+    i=1
+    while content[ind-i] == content[ind+length-i]:
+        tandemrepeats.append((ind-i,length,2))
+        i +=1
 
+#print "\n\n\tThe tandem repeats: " + str(tandemrepeats) ##testing output
 
-    ##leftrotation:
-    tandemrepeats = []
-    tandemrepeats.append(branches_finder_opt.b_t_r)
-    for ind, length, two in branches_finder_opt.b_t_r:
-        i=1
-        while content[ind-i] == content[ind+length-i]:
-            tandemrepeats.append((ind-i,length,2))
-            i +=1
-
-    #print "\n\n\tThe tandem repeats: " + str(tandemrepeats) ##testing output
-
-
-    str = "\n\t"+filename+": %i %i"%( len(tandemrepeats[0]) , len(tandemrepeats)-1 ) ##Output that they ask for in the assignment
-    print str
 
     #print branches_finder_bas.b_t_r
     #print branches_finder_opt.b_t_r
 
+    str = "\n\t"+filename+": %i %i"%( len(tandemrepeats[0]) , len(tandemrepeats)-1 ) ##Output that they ask for in the assignment
+    print str
 
-    return str
-
-    
-
+"""
 
 
 if __name__ == "__main__":
