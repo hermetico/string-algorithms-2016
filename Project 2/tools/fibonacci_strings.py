@@ -4,28 +4,31 @@ class FibonacciStrings(object):
         self.first = first
         self.second = second
 
-    def generate(self, length=0, **kwargs):
+    def generate(self, count=-float('inf'), length=-float('inf'), **kwargs):
         if kwargs:
             self.__init__(**kwargs)
 
-        if length == 0:
+        if count == 0:
             return self.first
-        elif length == 1:
+        elif count == 1:
             return self.second
-        elif length == 2:
+        elif count == 2:
             return self.second + self.first
         else:
-            return self.__recursive__(self.first, self.second, length - 1)
+            return self.__recursive__(self.first, self.second, count - 1, length)
 
-    def __recursive__(self, prevprev, prev, count):
+    def __recursive__(self, prevprev, prev, count, length):
 
         if count == 0:
             return prev
         else:
             new = prev + prevprev
+            if len(new) >= length:
+                return new[:length]
+
             prevprev = prev
             prev = new
-            return self.__recursive__(prevprev, prev, count - 1 )
+            return self.__recursive__(prevprev, prev, count - 1, length)
 
 
 if __name__ == "__main__":

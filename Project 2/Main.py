@@ -21,14 +21,8 @@ def main(argv):
     if len(argv) > 1:
         method = argv[1]
 
-
-    if method == 'basic':
-        tandem_finder = TandemFinder(st,preprocess)
-        tandem_repeats = tandem_finder.run(method='basic')
-
-    elif method == 'optimized':
-        tandem_finder = TandemFinder(st,preprocess)
-        tandem_repeats = tandem_finder.run(method='optimized')
+    tandem_finder = TandemFinder(st,preprocess)
+    tandem_repeats = tandem_finder.run(method=method)
 
 
     output =  "%s: %i %i\n" %(filename, len(tandem_repeats['b-t-r']), len(tandem_repeats['non-b-t-r']))
