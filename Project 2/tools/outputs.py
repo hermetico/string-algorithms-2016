@@ -56,5 +56,3 @@ def print_suffix_tree(tree, extra_info=dict(), format="png"):
     # returns the structure on console in case you wish to print it
     return ''#dot.source
 
-
-def plot(files):

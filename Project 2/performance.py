@@ -7,13 +7,13 @@ import time
 import os
 
 MIN = 10
-MAX = 1000
-STEP = 1.3
+MAX = 2000
+STEP = 1.1
 RANDOM_TEXT_FILE = 'some_randomness.txt'
 modes = ['worst-case', 'fibonacci-case', 'random-case']
 
 # temporal solution
-#sys.setrecursionlimit(100000)
+sys.setrecursionlimit(100000)
 
 def test(st, method):
 
