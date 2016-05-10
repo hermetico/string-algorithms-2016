@@ -15,16 +15,12 @@ def make_border_array(x):
             res[i+1] = 0
     return res
 
-def BA_search(x, pattern, BA=None): #exact pattern matching with border arrays
-    if BA==None:
-        BA = make_border_array(x)
+def BA_search(x, pattern):#psx_ba=None): #exact pattern matching with border arrays
 
-    psx = pattern + "$" + x
-    print "a"
-    psx_ba = make_border_array(psx)
-    print "b"
+    #if psx_ba==None:
+    #    psx_ba = make_border_array(pattern+"$"+x)
     m = len(pattern)
-    print psx_ba
+    psx_ba = make_border_array(pattern+"$"+x)
     for index, val in enumerate(psx_ba):
         if val == m:
             print index-2*m
