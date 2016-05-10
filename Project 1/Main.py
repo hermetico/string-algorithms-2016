@@ -4,6 +4,7 @@ from tools.outputs import print_suffix_tree
 from SuffixTree import searcher
 
 
+
 def main(argv):
     filename = argv[0]
     search_string = argv[1]
