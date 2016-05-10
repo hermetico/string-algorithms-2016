@@ -6,4 +6,4 @@ if __name__ == "__main__":
     my_ba = ba.make_border_array("ss$Mississippi")
     print my_ba
 
-    ba.BA_search("Mississippi", "pi")
+    ba.BA_search("abbacbbbababacabbbba", "bbba")
