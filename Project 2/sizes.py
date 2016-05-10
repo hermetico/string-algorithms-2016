@@ -32,7 +32,7 @@ def main(argv):
     print "Time needed: %f" % (end - start)
     print "String size: %i bytes" % (getsize(content))
     print "Tree size: %i bytes" % (getsize(st))
-    print "Node size: %i bytes" % (getsize(TrieNode(0,0, TrieNode(-1,-1), TrieNode(-1,-1, ), 0, 0)))
+    print "Node size: %i bytes" % (getsize(TrieNode(0,0, None, None, 0, 0)))
     print "Tree per character size: %f bytes" % (getsize(st) / getsize(content))
 
 
