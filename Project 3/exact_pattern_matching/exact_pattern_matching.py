@@ -52,7 +52,7 @@ class ExactPatternMatching(object):
             res_[i] = res[i-1] + 1
         return res, res_
 
-    def __match__(self, string_index, pattern_index, pattern_length):
+    def ___match__(self, string_index, pattern_index, pattern_length):
         while self.string[string_index] == self.pattern[pattern_index]:
             string_index += 1
             pattern_index += 1
@@ -61,7 +61,7 @@ class ExactPatternMatching(object):
         return string_index, pattern_index
 
 
-    def kmp_pattern_matching(self, pattern):
+    def _kmp_pattern_matching(self, pattern):
         self.pattern = '$' + pattern
         self.string = '$' + self.string
         self.patterns_at = []
@@ -75,7 +75,7 @@ class ExactPatternMatching(object):
 
         while string_index <= string_length - pattern_length + pattern_index:
 
-            string_index, pattern_index = self.__match__(string_index, pattern_index, pattern_length)
+            string_index, pattern_index = self.___match__(string_index, pattern_index, pattern_length)
 
             if pattern_index == pattern_length:
                 self.patterns_at.append(string_index - pattern_length)
@@ -84,9 +84,42 @@ class ExactPatternMatching(object):
             else:
                 pattern_index = b_[pattern_index]
 
+        self.string = self.string[1:]
         return self.patterns_at
 
 
+    def __match__(self, string_index, pattern_index, pattern_length):
+        while self.string[string_index] == self.pattern[pattern_index]:
+            string_index += 1
+            pattern_index += 1
+            if pattern_index == pattern_length:
+                break
+        return string_index, pattern_index
+
+
+    def kmp_pattern_matching(self, pattern):
+        self.pattern = pattern
+        self.string = self.string
+        self.patterns_at = []
+        pattern_length = len(self.pattern)
+        string_length = len(self.string)
+        b, b_ = self.__border_preprocessing__(pattern)
+
+        string_index, pattern_index = 0, 0
+
+
+        while string_index <= string_length - pattern_length + pattern_index :
+
+            string_index, pattern_index = self.__match__(string_index, pattern_index, pattern_length)
+
+            if pattern_index == pattern_length:
+                self.patterns_at.append(string_index - pattern_length)
+            if pattern_index == 0:
+                string_index += 1
+            else:
+                pattern_index = b_[pattern_index] - 1
+
+        return self.patterns_at
 
 
 
@@ -94,5 +127,6 @@ class ExactPatternMatching(object):
 if __name__ == "__main__":
     patterns_matcher = ExactPatternMatching('abbacbbbababacabbbba')
     print patterns_matcher.naive_pattern_matching('bbba')
+    print patterns_matcher._kmp_pattern_matching('bbba')
     print patterns_matcher.kmp_pattern_matching('bbba')
 
