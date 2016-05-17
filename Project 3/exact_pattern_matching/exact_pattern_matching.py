@@ -42,6 +42,8 @@ class ExactPatternMatching(object):
                     self.patterns_at.append(index)
                     break
                 # checks if the character is equal
+                if index+match_index >= len(self.string):
+                    break
                 if self.string[index + match_index] != pattern[match_index]:
                     break
         return self.patterns_at
