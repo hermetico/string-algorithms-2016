@@ -13,6 +13,19 @@ class ExactPatternMatching(object):
             return self.naive_pattern_matching(pattern)
         elif mode == 'kmp-pattern-matching':
             return self.kmp_pattern_matching(pattern)
+        elif mode == 'ba-pattern-matching':
+            return self.ba_patter_matching(pattern)
+
+
+    def BA_search(x, pattern):#psx_ba=None): #exact pattern matching with border arrays
+
+    #if psx_ba==None:
+    #    psx_ba = make_border_array(pattern+"$"+x)
+    m = len(pattern)
+    psx_ba = make_border_array(pattern+"$"+x)
+    for index, val in enumerate(psx_ba):
+        if val == m:
+            print index-2*m
 
     def _naive_pattern_matching(self, pattern):
         """Naive implementation for an exact pattern matching algorithm"""
