@@ -1,3 +1,4 @@
+from border_array.border_array import make_border_array
 
 class ExactPatternMatching(object):
     def __init__(self, string=None):
@@ -14,18 +15,18 @@ class ExactPatternMatching(object):
         elif mode == 'kmp-pattern-matching':
             return self.kmp_pattern_matching(pattern)
         elif mode == 'ba-pattern-matching':
-            return self.ba_patter_matching(pattern)
+            return self.ba_pattern_matching(pattern)
 
 
-    def BA_search(x, pattern):#psx_ba=None): #exact pattern matching with border arrays
+    def ba_pattern_matching(self, pattern):#psx_ba=None): #exact pattern matching with border arrays
 
     #if psx_ba==None:
     #    psx_ba = make_border_array(pattern+"$"+x)
-    m = len(pattern)
-    psx_ba = make_border_array(pattern+"$"+x)
-    for index, val in enumerate(psx_ba):
-        if val == m:
-            print index-2*m
+        m = len(pattern)
+        psx_ba = make_border_array(pattern+"$"+self.string)
+        for index, val in enumerate(psx_ba):
+            if val == m:
+                print index-2*m
 
     def naive_pattern_matching(self, pattern):
         """Naive implementation for an exact pattern matching algorithm"""
