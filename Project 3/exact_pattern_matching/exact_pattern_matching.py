@@ -14,6 +14,25 @@ class ExactPatternMatching(object):
         elif mode == 'kmp-pattern-matching':
             return self.kmp_pattern_matching(pattern)
 
+    def _naive_pattern_matching(self, pattern):
+        """Naive implementation for an exact pattern matching algorithm"""
+        self.patterns_at = []
+        pattern_length = len(pattern)
+        string_length = len(self.string)
+        # loops through the string
+        for index in range(string_length):
+            #  loops through the pattern
+            for match_index in range(pattern_length + 1):
+                # checks if the whole pattern has been checked
+                if match_index == pattern_length:
+                    self.patterns_at.append(index)
+                    break
+                # checks if the character is equal
+                if self.string[index + match_index] != pattern[match_index]:
+                    break
+        return self.patterns_at
+
+
     def naive_pattern_matching(self, pattern):
         """Naive implementation for an exact pattern matching algorithm"""
         self.patterns_at = []
@@ -54,11 +73,9 @@ class ExactPatternMatching(object):
 
 
     def __match__(self, string_index, pattern_index, pattern_length):
-        while self.string[string_index] == self.pattern[pattern_index]:
+        while pattern_index != pattern_length and self.string[string_index] == self.pattern[pattern_index]:
             string_index += 1
             pattern_index += 1
-            if pattern_index == pattern_length:
-                break
         return string_index, pattern_index
 
 
