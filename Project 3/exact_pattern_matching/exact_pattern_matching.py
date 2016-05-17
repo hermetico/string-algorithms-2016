@@ -19,33 +19,16 @@ class ExactPatternMatching(object):
 
 
     def ba_pattern_matching(self, pattern):#psx_ba=None): #exact pattern matching with border arrays
-
+        self.patterns_at = []
     #if psx_ba==None:
     #    psx_ba = make_border_array(pattern+"$"+x)
         m = len(pattern)
         psx_ba = make_border_array(pattern+"$"+self.string)
         for index, val in enumerate(psx_ba):
             if val == m:
-                print index-2*m
+                self.patterns_at.append(index-2*m)
 
-    def _naive_pattern_matching(self, pattern):
-        """Naive implementation for an exact pattern matching algorithm"""
-        self.patterns_at = []
-        pattern_length = len(pattern)
-        string_length = len(self.string)
-        # loops through the string
-        for index in range(string_length):
-            #  loops through the pattern
-            for match_index in range(pattern_length + 1):
-                # checks if the whole pattern has been checked
-                if match_index == pattern_length:
-                    self.patterns_at.append(index)
-                    break
-                # checks if the character is equal
-                if self.string[index + match_index] != pattern[match_index]:
-                    break
-        return self.patterns_at
-
+        return self.patterns_at[:]
 
     def naive_pattern_matching(self, pattern):
         """Naive implementation for an exact pattern matching algorithm"""
@@ -55,45 +38,52 @@ class ExactPatternMatching(object):
         # loops through the string
         for index in range(string_length):
             #  loops through the pattern
-            for match_index in range(pattern_length + 1):
-                # checks if the whole pattern has been checked
-                if match_index == pattern_length:
-                    self.patterns_at.append(index)
-                    break
-                # checks if the character is equal
-                if self.string[index + match_index] != pattern[match_index]:
-                    break
-        return self.patterns_at
+            match_index = 0
 
+            while match_index < pattern_length \
+                    and index < string_length \
+                    and pattern[match_index] == self.string[index]:
+                match_index += 1
+                index += 1
+            if match_index == pattern_length:
+                self.patterns_at.append(index - pattern_length)
+
+        return self.patterns_at[:]
 
     def __border_preprocessing__(self, pattern):
+        """
+        Computes a border array and a modified version for the kmp
+        :param pattern: the string to compute
+        :return: <border-array>, <modified border-array>
+        """
         n = len(pattern)
-        res = [None] * n
+        res = make_border_array(pattern)
         res_ = [0] * (n + 1)
-        res[0] = 0
-
-        for i in range(0, n - 1):
-            b = res[i]
-            while b > 0 and (pattern[i + 1] != pattern[b]):
-                b = res[b - 1]
-            if pattern[i + 1] == pattern[b]:
-                res[i + 1] = b + 1
-            else:
-                res[i + 1] = 0
-
         for i in range(1, n + 1):
             res_[i] = res[i-1] + 1
         return res, res_
 
 
     def __match__(self, string_index, pattern_index, pattern_length):
+        """
+        Loops through the string and the pattern until it's the end of the pattern or
+        string and pattern differ
+        :param string_index:
+        :param pattern_index:
+        :param pattern_length:
+        :return:
+        """
         while pattern_index != pattern_length and self.string[string_index] == self.pattern[pattern_index]:
             string_index += 1
             pattern_index += 1
         return string_index, pattern_index
 
-
     def kmp_pattern_matching(self, pattern):
+        """
+        Computes the kmp pattern matching
+        :param pattern:
+        :return:
+        """
         self.pattern = pattern
         self.string = self.string
         self.patterns_at = []
@@ -115,13 +105,17 @@ class ExactPatternMatching(object):
             else:
                 pattern_index = b_[pattern_index] - 1
 
-        return self.patterns_at
-
-
-
+        return self.patterns_at[:]
 
 if __name__ == "__main__":
-    patterns_matcher = ExactPatternMatching('abbacbbbababacabbbba')
-    print patterns_matcher.naive_pattern_matching('bbba')
-    print patterns_matcher.kmp_pattern_matching('bbba')
+
+    pattern = 'abb'
+    string = 'abaababaabaababaababaabaababaabaababaababaabaababa'
+    patterns_matcher = ExactPatternMatching(string)
+    print patterns_matcher.ba_pattern_matching(pattern)
+    print patterns_matcher.naive_pattern_matching(pattern)
+    print patterns_matcher.kmp_pattern_matching(pattern)
+
+    print patterns_matcher.search(pattern, mode='kmp-pattern-matching', string='abaababaabaababaababaabaababaabaababaababaabaababa')
+
 
