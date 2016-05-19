@@ -10,17 +10,19 @@ modes = ['naive-pattern-matching', 'kmp-pattern-matching', 'ba-pattern-matching'
 cases = ['best-case', 'fibbonacci-case', 'worst-case']
 
 fb_string = FibonacciStrings().generate(length=MAX)
-other_string = ''.join(['a'] * MAX)
+base_string = ''.join(['a'] * MAX)
 
+"""
 #best_pattern = ''.join(['b'] * 20)
 best_pattern = 'qwertyuiopsdfghjklzx'
 worst_pattern = ''.join(['a'] * 20)
 fb_pattern = 'abaababaabaababaabab'
 """
-best_pattern = ''.join(['b'] * 7)
+
+best_pattern = 'qwertyu'
 worst_pattern = ''.join(['a'] * 7)
 fb_pattern = 'abaabab'
-"""
+
 
 pattern_matcher = ExactPatternMatching()
 
@@ -33,12 +35,25 @@ def cool_range(init=1, end=10, step=1):
 
 
 def performance(n, mode='naive-pattern-matching', case='best-case'):
+
+
     if case == 'best-case':
-        pattern_matcher.search(best_pattern, mode=mode, string=other_string[:n])
+        string = base_string[:n]
+        pattern = best_pattern
+
     elif case == 'fibbonacci-case':
-        pattern_matcher.search(fb_pattern, mode=mode, string=fb_string[:n])
+        string = fb_string[:n]
+        pattern = fb_pattern
+
     elif case == 'worst-case':
-        pattern_matcher.search(worst_pattern, mode=mode, string=other_string[:n])
+        string = base_string[:n]
+        pattern = worst_pattern
+
+    init = time.clock()
+    for x in range(5):
+        pattern_matcher.search(pattern, mode=mode, string=string)
+    return (time.clock() - init) / .5
+
 
 
 def suite(ext = '.txt'):
@@ -48,11 +63,8 @@ def suite(ext = '.txt'):
             for n in cool_range(MIN, MAX, STEP):
                 line = [n]
                 for case in cases:
-                    init = time.clock()
-                    # the average of 10 times
-                    for x in range(5):
-                        performance(n, mode, case)
-                    line.append((time.clock() - init) / 5.)
+                    spent = performance(n, mode, case)
+                    line.append(spent)
 
                 f.write("%s\n" % (' '.join([str(c) for c in line])))
 

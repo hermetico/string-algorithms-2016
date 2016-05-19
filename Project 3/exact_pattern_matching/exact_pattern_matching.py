@@ -76,6 +76,7 @@ class ExactPatternMatching(object):
         while pattern_index != pattern_length and self.string[string_index] == self.pattern[pattern_index]:
             string_index += 1
             pattern_index += 1
+
         return string_index, pattern_index
 
     def kmp_pattern_matching(self, pattern):
@@ -96,7 +97,11 @@ class ExactPatternMatching(object):
 
         while string_index <= string_length - pattern_length + pattern_index :
 
-            string_index, pattern_index = self.__match__(string_index, pattern_index, pattern_length)
+            # trying to avoid overhead...
+            # string_index, pattern_index = self.__match__(string_index, pattern_index, pattern_length)
+            while pattern_index != pattern_length and self.string[string_index] == self.pattern[pattern_index]:
+                string_index += 1
+                pattern_index += 1
 
             if pattern_index == pattern_length:
                 self.patterns_at.append(string_index - pattern_length)
@@ -109,13 +114,12 @@ class ExactPatternMatching(object):
 
 if __name__ == "__main__":
 
-    pattern = 'abb'
+    pattern = 'ab'
     string = 'abaababaabaababaababaabaababaabaababaababaabaababa'
     patterns_matcher = ExactPatternMatching(string)
     print patterns_matcher.ba_pattern_matching(pattern)
-    print patterns_matcher.naive_pattern_matching(pattern)
+    print patterns_matcher.search(pattern, mode='naive-pattern-matching', string=string)
     print patterns_matcher.kmp_pattern_matching(pattern)
-
     print patterns_matcher.search(pattern, mode='kmp-pattern-matching', string='abaababaabaababaababaabaababaabaababaababaabaababa')
 
 
