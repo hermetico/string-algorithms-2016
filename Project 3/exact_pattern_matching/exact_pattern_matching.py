@@ -112,12 +112,31 @@ class ExactPatternMatching(object):
 
 if __name__ == "__main__":
 
-    pattern = 'ab'
-    string = 'abaababaabaababaababaabaababaabaababaababaabaababa'
+    pattern = 'ana'
+    string = 'banana'
     patterns_matcher = ExactPatternMatching(string)
+    print "String: %s\nPattern: %s" %(string, pattern)
+    print  "Naive algorithm"
+    print patterns_matcher.naive_pattern_matching(pattern)
+    print "BA algorithm"
     print patterns_matcher.ba_pattern_matching(pattern)
-    print patterns_matcher.search(pattern, mode='naive-pattern-matching', string=string)
+    print "KMP algorithm"
     print patterns_matcher.kmp_pattern_matching(pattern)
+
+    pattern = 'bbba'
+    string = 'abbacbbbababacabbbba'
+    patterns_matcher = ExactPatternMatching(string)
+    print "String: %s\nPattern: %s" % (string, pattern)
+    print  "Naive algorithm"
+    print patterns_matcher.naive_pattern_matching(pattern)
+    print "BA algorithm"
+    print patterns_matcher.ba_pattern_matching(pattern)
+    print "KMP algorithm"
+    print patterns_matcher.kmp_pattern_matching(pattern)
+
+
+    """
+    print patterns_matcher.search(pattern, mode='naive-pattern-matching', string=string)
     print patterns_matcher.search(pattern, mode='kmp-pattern-matching', string='abaababaabaababaababaabaababaabaababaababaabaababa')
 
     print "change"
@@ -127,3 +146,4 @@ if __name__ == "__main__":
     print patterns_matcher.ba_pattern_matching(pattern)
     print patterns_matcher.search(pattern, mode='naive-pattern-matching', string=string)
     print patterns_matcher.kmp_pattern_matching(pattern)
+    """

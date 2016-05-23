@@ -4,6 +4,7 @@ from SuffixTree.SuffixTree import SuffixTree
 from SuffixTree import searcher
 import time
 import sys
+import os
 MIN = 10
 MAX = 100000
 STEP = 1.1
@@ -74,7 +75,26 @@ def suite(ext = '.txt'):
 
 
 def test_files():
-    pass
+    string_file ='chr1_10000000.txt'
+    pattern_file = 'pattern%i.txt'
+    pattern_sizes = [10, 20, 30, 40, 50, 100, 500, 1000, 5000, 10000, 50000, 100000, 500000, 1000000]
+    folder = os.path.join(os.path.abspath('.'), 'TestFiles')
+    string = open(os.path.join(folder, string_file)).read()
+    print "pattern", modes
+    for size in pattern_sizes:
+        pattern = open(os.path.join(folder, pattern_file % size)).read()
+        line = [pattern_file % size]
+        # tests the rest of them
+        for mode in modes:
+            init = time.clock()
+            # The time spent to link libraries is also considered
+            patterns_matcher = ExactPatternMatching()
+            test_one(patterns_matcher, pattern, 1, {'mode': mode, 'string': string})
+            end = time.clock() - init
+            line.append(end)
+        print("%s\n" % (' '.join([str(c) for c in line])))
+
+
 
 
 def test_one(lib, pattern, times,  params):
@@ -139,6 +159,13 @@ def test_tree_and_others(ext='.txt'):
             if i % 10 == 0:
                 print "%i iterations, current n: %i"%(i, n)
 
+
 if __name__ == "__main__":
+    # tests running time over different patterns
     #suite()
-    test_tree_and_others()
+
+    # tests suffix tree over the others
+    #test_tree_and_others()
+
+    # tests running time of the different files
+    test_files()
