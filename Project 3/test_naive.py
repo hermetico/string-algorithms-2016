@@ -9,7 +9,7 @@ def time_naive_cpp(str="Mississippi",pat="ss"):
     f = open("args", 'wb')
     f.write(str+ " "+pat+"\n")
     f.close()
-    os.system(cmdstring +" >> result") #execute it. The result will also show up in the python terminal
+    os.system(cmdstring +" >> cpp_naive_output.t") #execute it. The result will also show up in the python terminal
     #end = time.clock();
     #res = end - start
     #print ("Time from python was %f\n"%res)
@@ -25,6 +25,7 @@ def time_naive_python(str="Mississippi",pat="ss"):
     res = end-start
     print res
     return res
+	
 if __name__ == "__main__":
     #print "time naive c:"
     i = 10000000 #10 mil
