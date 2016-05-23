@@ -134,16 +134,3 @@ if __name__ == "__main__":
     print "KMP algorithm"
     print patterns_matcher.kmp_pattern_matching(pattern)
 
-
-    """
-    print patterns_matcher.search(pattern, mode='naive-pattern-matching', string=string)
-    print patterns_matcher.search(pattern, mode='kmp-pattern-matching', string='abaababaabaababaababaabaababaabaababaababaabaababa')
-
-    print "change"
-    pattern  = "aaa"
-    string = "".join(['a'] * 50)
-    patterns_matcher = ExactPatternMatching(string)
-    print patterns_matcher.ba_pattern_matching(pattern)
-    print patterns_matcher.search(pattern, mode='naive-pattern-matching', string=string)
-    print patterns_matcher.kmp_pattern_matching(pattern)
-    """

@@ -162,10 +162,10 @@ def test_tree_and_others(ext='.txt'):
 
 if __name__ == "__main__":
     # tests running time over different patterns
-    #suite()
+    suite()
 
     # tests suffix tree over the others
-    #test_tree_and_others()
+    test_tree_and_others()
 
     # tests running time of the different files
     test_files()
