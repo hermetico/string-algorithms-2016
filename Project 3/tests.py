@@ -136,5 +136,5 @@ def test_tree_and_others(ext='.txt'):
                 print "%i iterations, current n: %i"%(i, n)
 
 if __name__ == "__main__":
-    #suite()
-    test_tree_and_others()
+    suite()
+    #test_tree_and_others()

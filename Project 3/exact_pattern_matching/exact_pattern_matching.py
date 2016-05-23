@@ -36,13 +36,11 @@ class ExactPatternMatching(object):
         pattern_length = len(pattern)
         string_length = len(self.string)
         # loops through the string
-        for index in range(string_length):
+        for index in range((string_length - pattern_length) + 1):
             #  loops through the pattern
             match_index = 0
 
-            while match_index < pattern_length \
-                    and index < string_length \
-                    and pattern[match_index] == self.string[index]:
+            while match_index < pattern_length and pattern[match_index] == self.string[index]:
                 match_index += 1
                 index += 1
             if match_index == pattern_length:
@@ -122,4 +120,10 @@ if __name__ == "__main__":
     print patterns_matcher.kmp_pattern_matching(pattern)
     print patterns_matcher.search(pattern, mode='kmp-pattern-matching', string='abaababaabaababaababaabaababaabaababaababaabaababa')
 
-
+    print "change"
+    pattern  = "aaa"
+    string = "".join(['a'] * 50)
+    patterns_matcher = ExactPatternMatching(string)
+    print patterns_matcher.ba_pattern_matching(pattern)
+    print patterns_matcher.search(pattern, mode='naive-pattern-matching', string=string)
+    print patterns_matcher.kmp_pattern_matching(pattern)
