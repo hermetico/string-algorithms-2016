@@ -1,4 +1,4 @@
-## How to run this scripts
+## How to run these scripts
 * To test the correctness of the algorithms just run
 
 ```
