@@ -101,10 +101,14 @@ def test_tree_and_others(ext='.txt'):
     :param ext:
     :return:
     """
-    max_string = 2000
+    max_string = 1000
     max_pattern = 10
     string = FibonacciStrings().generate(length=max_string)
     pattern = FibonacciStrings().generate(length=max_pattern)
+
+    #string = ''.join(['uiopasdfghjklmznxbcv'] * max_string)
+    #pattern = 'qwertyu'
+
     MIN_SEARCHES = 100
     MAX_SEARCHES = 10000
 
@@ -136,5 +140,5 @@ def test_tree_and_others(ext='.txt'):
                 print "%i iterations, current n: %i"%(i, n)
 
 if __name__ == "__main__":
-    suite()
-    #test_tree_and_others()
+    #suite()
+    test_tree_and_others()
